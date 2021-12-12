@@ -1,5 +1,6 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -9,6 +10,8 @@ import java.io.Serializable;
  * @author SunWarriorZLX
  * @since 1.0.0
  **/
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "appliedProfile")
 public class AppliedProfile implements Serializable {
     private static final long serialVersionUID = 8953238787772783836L;

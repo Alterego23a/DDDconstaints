@@ -1,11 +1,13 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.io.Serial;
 import java.io.Serializable;
 @JacksonXmlRootElement(localName = "ownedOperation")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OwnedOperation implements Serializable {
     @Serial
     private static final long serialVersionUID = 8403537210358514162L;

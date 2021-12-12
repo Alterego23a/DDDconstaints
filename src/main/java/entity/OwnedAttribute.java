@@ -1,11 +1,13 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.io.Serial;
 import java.io.Serializable;
 @JacksonXmlRootElement(localName = "ownedAttribute")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OwnedAttribute implements Serializable {
 
     @Serial

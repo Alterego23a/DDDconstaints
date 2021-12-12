@@ -1,5 +1,6 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -12,6 +13,7 @@ import java.util.List;
  * @since 1.0.0
  **/
 @JacksonXmlRootElement(localName = "profileApplication")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProfileApplication implements Serializable {
     private static final long serialVersionUID = -2997920678150203854L;
 

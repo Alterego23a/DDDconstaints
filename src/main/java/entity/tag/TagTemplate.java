@@ -1,5 +1,6 @@
 package entity.tag;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import java.io.Serializable;
@@ -8,6 +9,8 @@ import java.io.Serializable;
  * @author SunWarriorZLX
  * @since 1.0.0
  **/
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TagTemplate extends BaseTag implements Serializable {
     private static final long serialVersionUID = 7756989825310760243L;
 

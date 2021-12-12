@@ -1,5 +1,6 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import entity.tag.*;
@@ -12,6 +13,9 @@ import java.util.List;
  * @author SunWarriorZLX
  * @since 1.0.0
  **/
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class XMI implements Serializable {
 
     private static final long serialVersionUID = -6976783731466786769L;
