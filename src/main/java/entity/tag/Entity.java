@@ -5,7 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.io.Serializable;
 
 /**
- * @author SunWarriorZLX
+ * @author CZK
  * @since 1.0.0
  **/
 public class Entity extends TagTemplate implements Serializable {
@@ -15,15 +15,17 @@ public class Entity extends TagTemplate implements Serializable {
     @JacksonXmlProperty(isAttribute = true,localName = "Identity")
     private String identity;
 
+    public Entity() {
+
+    }
+
     public String getIdentity() {
         return identity;
     }
 
-
-
-
-
     public void setIdentity(String identity) {
         this.identity = identity;
     }
+
+
 }

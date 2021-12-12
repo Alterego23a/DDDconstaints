@@ -6,7 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.io.Serializable;
 
 /**
- * @author SunWarriorZLX
+ * @author CZK
  * @since 1.0.0
  **/
 

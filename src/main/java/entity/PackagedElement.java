@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author SunWarriorZLX
+ * @author CZK
  * @since 1.0.0
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -70,6 +70,22 @@ public class PackagedElement implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<OwnedAttribute> getOwnedAttributes() {
+        return ownedAttributes;
+    }
+
+    public List<OwnedOperation> getOwnedOperations() {
+        return ownedOperations;
+    }
+
+    public void setOwnedAttributes(List<OwnedAttribute> ownedAttributes) {
+        this.ownedAttributes = ownedAttributes;
+    }
+
+    public void setOwnedOperations(List<OwnedOperation> ownedOperations) {
+        this.ownedOperations = ownedOperations;
     }
 
     @Override

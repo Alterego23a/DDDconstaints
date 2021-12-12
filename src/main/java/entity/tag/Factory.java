@@ -3,7 +3,7 @@ package entity.tag;
 import java.io.Serializable;
 
 /**
- * @author SunWarriorZLX
+ * @author CZK
  * @since 1.0.0
  **/
 public class Factory extends TagTemplate implements Serializable {

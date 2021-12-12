@@ -11,7 +11,8 @@ import java.io.IOException;
 public class XMLParserUtil {
 
 
-    public static XMI parserXML(String filePath) throws IOException {
+    public static XMI parserXML() throws IOException {
+        String filePath = "src/main/resources/parser-test.xml";
         FileInputStream fileInputStream = new FileInputStream(filePath);
         JacksonXmlModule jacksonXmlModule = new JacksonXmlModule();
         XmlMapper xmlMapper = new XmlMapper(jacksonXmlModule);

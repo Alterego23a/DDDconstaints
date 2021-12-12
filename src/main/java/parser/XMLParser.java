@@ -8,7 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * @author SunWarriorZLX
+ * @author CZK
  * @since 1.0.0
  **/
 public class XMLParser {

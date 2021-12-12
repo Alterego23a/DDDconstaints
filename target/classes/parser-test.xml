@@ -51,7 +51,7 @@
             <appliedProfile xmi:type="uml:Profile" href="model.profile.uml#_YMxa4EeUEeyrcZPpN3mi4A"/>
         </profileApplication>
     </uml:Model>
-    <model:Entity xmi:id="_6fcLkFDkEeyTeJLkupB1eQ" xmi:base_Class="_4v12MFDkEeyTeJLkupB1eQ"/>
+    <model:Entity xmi:id="_6fcLkFDkEeyTeJLkupB1eQ" xmi:base_Class="_4v12MFDkEeyTeJLkupB1eQ" Identity="434"/>
     <model:AggregatePart xmi:id="_7KBZoFDkEeyTeJLkupB1eQ" base_Class="_5YMPoFDkEeyTeJLkupB1eQ"/>
     <model:AggregateRoot xmi:id="_7wWZ0FDkEeyTeJLkupB1eQ" base_Class="_5jjyIFDkEeyTeJLkupB1eQ"/>
     <model:DomainEvent xmi:id="_8-EKIFDkEeyTeJLkupB1eQ" base_Class="_8I9uIFDkEeyTeJLkupB1eQ"/>

@@ -6,6 +6,12 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.io.Serial;
 import java.io.Serializable;
+
+/**
+ * @author CZK
+ * @since 1.0.0
+ **/
+
 @JacksonXmlRootElement(localName = "ownedAttribute")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OwnedAttribute implements Serializable {
