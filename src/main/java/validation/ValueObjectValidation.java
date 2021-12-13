@@ -18,7 +18,7 @@ public class ValueObjectValidation {
         {
             ValueObject valueObject=it.next();
             Iterator<PackagedElement> elementIterator=xmi.getUmlModel().getPackagedElement().listIterator();
-            PackagedElement packagedElement = null;
+            PackagedElement packagedElement =new PackagedElement();
             while (elementIterator.hasNext())
             {
                 PackagedElement packagedElement1 = elementIterator.next();
@@ -30,6 +30,7 @@ public class ValueObjectValidation {
             }
           //  PackagedElement packagedElement=elementIterator.next();
             //assert packagedElement!=null;
+
             Iterator<OwnedAttribute> ownedAttributeIterator=packagedElement.getOwnedAttributes().listIterator();
             while (ownedAttributeIterator.hasNext())
             {

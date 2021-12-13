@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 public class RepositoryValidation {
-    public static boolean valueObjectCheck() throws IOException {
+    public static boolean repositoryCheck() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<Repository> it = xmi.getRepositories().listIterator();
 
@@ -20,7 +20,7 @@ public class RepositoryValidation {
         {
             Repository repository=it.next();
             Iterator<PackagedElement> elementIterator=xmi.getUmlModel().getPackagedElement().listIterator();
-            PackagedElement packagedElement = null;
+            PackagedElement packagedElement =new PackagedElement();
             while (elementIterator.hasNext())
             {
                 PackagedElement packagedElement1 = elementIterator.next();
@@ -32,7 +32,7 @@ public class RepositoryValidation {
             }
             //  PackagedElement packagedElement=elementIterator.next();
             //assert packagedElement!=null;
-            if(packagedElement.getOwnedAttributes().size()>0)
+            if(packagedElement.getOwnedAttributes()!=null)
                 return false;
         }
         return true;

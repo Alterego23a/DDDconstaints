@@ -9,7 +9,6 @@
             <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
         </packageImport>
         <packagedElement xmi:type="uml:Class" xmi:id="_4v12MFDkEeyTeJLkupB1eQ" name="Class4" size="2323"/>
-        <DSJHDAUSIH ></DSJHDAUSIH>
         <packagedElement xmi:type="uml:Class" xmi:id="_5YMPoFDkEeyTeJLkupB1eQ" name="Class5"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_5jjyIFDkEeyTeJLkupB1eQ" name="Class6"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_8I9uIFDkEeyTeJLkupB1eQ" name="Class7"/>
@@ -60,7 +59,7 @@
     <model:Repository xmi:id="_blRf0FDsEeyTeJLkupB1eQ" base_Class="_ROrjoFDlEeyTeJLkupB1eQ"/>
     <model:ValueObject xmi:id="_cVWR4FDsEeyTeJLkupB1eQ" base_Class="_bzDdIFDsEeyTeJLkupB1eQ"/>
     <model:ValueObject xmi:id="_eQtLUFDsEeyTeJLkupB1eQ" base_Class="_5YMPoFDkEeyTeJLkupB1eQ"/>
-    <model:Entity xmi:id="_fIyC0FDsEeyTeJLkupB1eQ" base_Class="_5jjyIFDkEeyTeJLkupB1eQ"/>
+    <model:Entity xmi:id="_fIyC0FDsEeyTeJLkupB1eQ" base_Class="_5jjyIFDkEeyTeJLkupB1eQ" Identity="434"/>
     <model:Aggregate xmi:id="_lQPwUFDsEeyTeJLkupB1eQ" base_Package="_jHq6QFDsEeyTeJLkupB1eQ"/>
     <model:BoundedContext xmi:id="_l0Mx8FDsEeyTeJLkupB1eQ" base_Package="_jYchMFDsEeyTeJLkupB1eQ"/>
     <model:Module xmi:id="_nBGC4FDsEeyTeJLkupB1eQ" base_Package="_jjRRIFDsEeyTeJLkupB1eQ"/>

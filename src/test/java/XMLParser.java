@@ -1,5 +1,3 @@
-package parser;
-
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import entity.XMI;

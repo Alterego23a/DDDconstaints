@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 public class DomainServiceValidation {
-    public static boolean valueObjectCheck() throws IOException {
+    public static boolean domainServiceCheck() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<DomainService> it = xmi.getDomainServices().listIterator();
 
@@ -19,7 +19,7 @@ public class DomainServiceValidation {
         {
             DomainService domainService=it.next();
             Iterator<PackagedElement> elementIterator=xmi.getUmlModel().getPackagedElement().listIterator();
-            PackagedElement packagedElement = null;
+           PackagedElement packagedElement= new PackagedElement();
             while (elementIterator.hasNext())
             {
                 PackagedElement packagedElement1 = elementIterator.next();
@@ -31,7 +31,8 @@ public class DomainServiceValidation {
             }
             //  PackagedElement packagedElement=elementIterator.next();
             //assert packagedElement!=null;
-            if(packagedElement.getOwnedAttributes().size()>0)
+       //     if(packagedElement==null) return true;
+          if(packagedElement.getOwnedAttributes()!=null)
                 return false;
         }
         return true;
