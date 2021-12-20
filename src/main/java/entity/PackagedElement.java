@@ -34,6 +34,9 @@ public class PackagedElement implements Serializable {
     @JacksonXmlElementWrapper(useWrapping = false)
     private List<OwnedOperation> ownedOperations;
 
+    @JacksonXmlProperty(localName = "packagedElement")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    private List<PackagedElement> packagedElements;
 
 //    public PackagedElement(String type, String id, String name) {
 //        this.type = type;
@@ -88,12 +91,23 @@ public class PackagedElement implements Serializable {
         this.ownedOperations = ownedOperations;
     }
 
+    public List<PackagedElement> getPackagedElements() {
+        return packagedElements;
+    }
+
+    public void setPackagedElements(List<PackagedElement> packagedElements) {
+        this.packagedElements = packagedElements;
+    }
+
     @Override
     public String toString() {
         return "PackagedElement{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
                 ", name='" + name + '\'' +
+                ", ownedAttributes=" + ownedAttributes +
+                ", ownedOperations=" + ownedOperations +
+                ", packagedElements=" + packagedElements +
                 '}';
     }
 }

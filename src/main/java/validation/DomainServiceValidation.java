@@ -23,7 +23,7 @@ public class DomainServiceValidation {
             while (elementIterator.hasNext())
             {
                 PackagedElement packagedElement1 = elementIterator.next();
-                if(packagedElement1.getId()==domainService.getBaseClass())
+                if(packagedElement1.getId()==domainService.getBaseClass())//该element是domainservice
                 {
                     packagedElement=packagedElement1;
                     break;

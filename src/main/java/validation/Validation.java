@@ -14,6 +14,6 @@ public class Validation {
 //        if(RepositoryValidation.repositoryCheck()==false)
 //            System.out.println("资源库错误");
 
-        System.out.println("ok");
+     //   System.out.println("ok");
     }
 }
