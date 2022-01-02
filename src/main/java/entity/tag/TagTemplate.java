@@ -1,9 +1,14 @@
 package entity.tag;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import entity.OwnedAttribute;
+import entity.OwnedOperation;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author CZK
@@ -22,6 +27,16 @@ public class TagTemplate extends BaseTag implements Serializable {
 
     @JacksonXmlProperty(isAttribute = true,localName = "base_Package")
     private String basePackage;
+
+
+    @JacksonXmlProperty(localName = "ownedAttribute")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    private List<OwnedAttribute> ownedAttributes;
+
+    @JacksonXmlProperty(localName = "ownedOperation")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    private List<OwnedOperation> ownedOperations;
+
 
     public TagTemplate(String id, String baseClass, String basePackage) {
         this.id = id;
@@ -56,12 +71,33 @@ public class TagTemplate extends BaseTag implements Serializable {
         this.basePackage = basePackage;
     }
 
+    public void setOwnedOperations(List<OwnedOperation> ownedOperations) {
+        this.ownedOperations = ownedOperations;
+    }
+
+    public void setOwnedAttributes(List<OwnedAttribute> ownedAttributes) {
+        this.ownedAttributes = ownedAttributes;
+    }
+
+    public List<OwnedOperation> getOwnedOperations() {
+        return ownedOperations != null ? ownedOperations: new ArrayList<OwnedOperation>();
+    }
+
+    public List<OwnedAttribute> getOwnedAttributes() {
+    //    return ownedAttributes;
+
+        return ownedAttributes != null ? ownedAttributes : new ArrayList<OwnedAttribute>();
+    }
+
     @Override
     public String toString() {
         return "TagTemplate{" +
                 "id='" + id + '\'' +
                 ", baseClass='" + baseClass + '\'' +
                 ", basePackage='" + basePackage + '\'' +
-                "} " + super.toString();
+                ", ownedAttributes=" + ownedAttributes +
+                ", ownedOperations=" + ownedOperations +
+                '}';
     }
 }
+

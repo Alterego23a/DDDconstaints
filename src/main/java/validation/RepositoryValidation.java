@@ -32,7 +32,7 @@ public class RepositoryValidation {
             }
             //  PackagedElement packagedElement=elementIterator.next();
             //assert packagedElement!=null;
-            if(packagedElement.getOwnedAttributes()!=null)
+            if(!packagedElement.getOwnedAttributes().isEmpty())
                 return false;
         }
         return true;

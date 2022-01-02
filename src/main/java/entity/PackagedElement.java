@@ -6,6 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,11 +77,11 @@ public class PackagedElement implements Serializable {
     }
 
     public List<OwnedAttribute> getOwnedAttributes() {
-        return ownedAttributes;
+        return ownedAttributes != null ? ownedAttributes : new ArrayList<OwnedAttribute>();
     }
 
     public List<OwnedOperation> getOwnedOperations() {
-        return ownedOperations;
+        return ownedOperations != null ? ownedOperations: new ArrayList<OwnedOperation>();
     }
 
     public void setOwnedAttributes(List<OwnedAttribute> ownedAttributes) {
@@ -92,7 +93,8 @@ public class PackagedElement implements Serializable {
     }
 
     public List<PackagedElement> getPackagedElements() {
-        return packagedElements;
+
+        return packagedElements != null ? packagedElements: new ArrayList<PackagedElement>();
     }
 
     public void setPackagedElements(List<PackagedElement> packagedElements) {

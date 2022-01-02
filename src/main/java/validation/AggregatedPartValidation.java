@@ -10,35 +10,61 @@ import entity.tag.ValueObject;
 import parser.XMLParserUtil;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 public class AggregatedPartValidation {
     public static boolean aggregatePartCheck() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
 
-        Iterator<AggregatePart> it = xmi.getAggregateParts().listIterator();
+        Iterator<PackagedElement> itAggregate = xmi.getUmlModel().getPackagedElement().listIterator();
 
-        while (it.hasNext()) {
-            AggregatePart aggregatePart = it.next();
-            Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();  //遍历每个element，对每个是聚合的element进行操作
-            PackagedElement packagedElement = new PackagedElement();
-            while (elementIterator.hasNext()) {
-                PackagedElement packagedElement1 = elementIterator.next();
-                if (Support.isAggregate(packagedElement1, xmi)) {
+        while (itAggregate.hasNext()) {//遍历所有element，找到是聚合的
 
-                    packagedElement = packagedElement1;
+            HashSet<String> aggregatePartSet = new HashSet<String>();//把该聚合的所有aggregatePart的id到set里
 
-                    Iterator<PackagedElement> elementIterator1 = packagedElement.getPackagedElements().listIterator();//聚合内部的成员
-                    while (elementIterator1.hasNext()) {
-                        PackagedElement packagedElement2 = elementIterator1.next();
-                        if (packagedElement2.getId() == aggregatePart.getId())
-                            return false;//内部成员不能是该聚合部分
+            PackagedElement aggregate = itAggregate.next();
+
+            if (Support.isAggregate(aggregate, xmi)) {
+
+                Iterator<PackagedElement> itAggregatePart = aggregate.getPackagedElements().listIterator();
+                while (itAggregatePart.hasNext()) {
+                    PackagedElement aggregatePart = itAggregatePart.next();
+                    ;//把该聚合的所有aggregatePart的id到set里
+                    if (Support.isAggregatePart(aggregatePart, xmi)) {
+                        aggregatePartSet.add(aggregatePart.getId());
+
                     }
                 }
+
+                Iterator<PackagedElement> itOtherAggregate = xmi.getUmlModel().getPackagedElement().listIterator();
+                while (itOtherAggregate.hasNext()) {//遍历其他element，找到是聚合的
+
+                    PackagedElement otherAggregate = itOtherAggregate.next();
+                    if (Support.isAggregate(otherAggregate, xmi) && (otherAggregate.getId() != aggregate.getId()))//其他聚合
+                    {
+                        Iterator<PackagedElement> itOtherAggregatePart = otherAggregate.getPackagedElements().listIterator();//遍历其他聚合内部的聚合部分
+                        while (itOtherAggregatePart.hasNext()) {
+                            PackagedElement otherAggregatePart = itOtherAggregatePart.next();
+                            if (Support.isAggregatePart(otherAggregatePart, xmi)) {
+                                Iterator<OwnedAttribute> attributeIterator = otherAggregatePart.getOwnedAttributes().listIterator();
+
+                                while (attributeIterator.hasNext()) {
+                                    OwnedAttribute attribute = attributeIterator.next();          //属性中引用了其他的聚合部分
+                                    if (aggregatePartSet.contains(attribute.getType()))
+                                        return false;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+
             }
 
-
         }
+
         return true;
     }
-
 }
+

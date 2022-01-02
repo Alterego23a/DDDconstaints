@@ -19,7 +19,7 @@ public class OwnedAttribute implements Serializable {
     @Serial
     private static final long serialVersionUID = -1516679362663214866L;
     @JacksonXmlProperty(isAttribute = true)
-    private String type;
+    private String type;     //无type时默认为xmi：type
 
     @JacksonXmlProperty(isAttribute = true)
     private String id;

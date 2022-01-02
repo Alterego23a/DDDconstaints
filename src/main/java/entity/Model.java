@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,7 +70,9 @@ public class Model implements Serializable {
     }
 
     public List<PackagedElement> getPackagedElement() {
-        return packagedElement;
+        //return packagedElement;
+        return packagedElement != null ? packagedElement: new ArrayList<PackagedElement>();
+
     }
 
     public void setPackagedElement(List<PackagedElement> packagedElement) {
