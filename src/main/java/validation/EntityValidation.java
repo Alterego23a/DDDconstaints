@@ -6,10 +6,8 @@ import entity.tag.Entity;
 import parser.XMLParserUtil;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 public class    EntityValidation {
     public static boolean entityCheck() throws IOException {
@@ -25,11 +23,11 @@ public class    EntityValidation {
             while(attributeIterator.hasNext()) {
                 OwnedAttribute attribute= attributeIterator.next();
 
-                if (e.getIdentity() != attribute.getType())
+                if (e.getIdentifier() != attribute.getType())
                     return false;
 
-                else if (entitySet.contains(e.getIdentity()) == false)
-                    entitySet.add(e.getIdentity());
+                else if (entitySet.contains(e.getIdentifier()) == false)
+                    entitySet.add(e.getIdentifier());
                 else
                     return false;
 

@@ -13,18 +13,18 @@ public class Entity extends TagTemplate implements Serializable {
     private static final long serialVersionUID = 550261141909134026L;
 
     @JacksonXmlProperty(isAttribute = true,localName = "Identity")
-    private String identity;
+    private String identifier;
 
     public Entity() {
 
     }
 
-    public String getIdentity() {
-        return identity;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setIdentity(String identity) {
-        this.identity = identity;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
 
