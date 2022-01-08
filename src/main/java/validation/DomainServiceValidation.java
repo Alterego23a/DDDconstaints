@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 public class DomainServiceValidation {
-    public static boolean domainServiceCheck() throws IOException {
+    public static boolean domainServiceCheck() throws IOException {//C9. A domain service is stateless.
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<DomainService> it = xmi.getDomainServices().listIterator();
 

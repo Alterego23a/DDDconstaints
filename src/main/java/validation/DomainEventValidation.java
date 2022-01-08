@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class    DomainEventValidation {
-    public static boolean domainEventCheck() throws IOException {
+    public static boolean domainEventCheck() throws IOException {//C5. A domain event has and only has one identity.
 
         // String filePath = "src/main/resources/parser-test.xml";
         XMI xmi = XMLParserUtil.parserXML();
@@ -26,7 +26,7 @@ public class    DomainEventValidation {
             while(attributeIterator.hasNext()) {
                 OwnedAttribute attribute= attributeIterator.next();
 
-                if (domainEvent.getIdentity() != attribute.getType())
+                if (domainEvent.getIdentity() != attribute.getType())//C. The identity of a domain event should be one of the attributes of the event itself
                     return false;
 
                 else if (domainEventSet.contains(domainEvent.getIdentity()) == false)

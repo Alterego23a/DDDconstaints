@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 public class AggregatedPartValidation {
-    public static boolean aggregatePartCheck() throws IOException {
+    public static boolean aggregatePartCheck() throws IOException {// C15. The reference of an aggregate part cannot be held by the outside objects
         XMI xmi = XMLParserUtil.parserXML();
 
         Iterator<PackagedElement> itAggregate = xmi.getUmlModel().getPackagedElement().listIterator();

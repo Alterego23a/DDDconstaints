@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 public class RepositoryValidation {
-    public static boolean repositoryCheck() throws IOException {
+    public static boolean repositoryCheck() throws IOException {//C11. A repository has no attributes
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<Repository> it = xmi.getRepositories().listIterator();
 

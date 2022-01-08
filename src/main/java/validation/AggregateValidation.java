@@ -3,10 +3,7 @@ package validation;
 import entity.OwnedAttribute;
 import entity.PackagedElement;
 import entity.XMI;
-import entity.tag.Aggregate;
-import entity.tag.DomainService;
-import entity.tag.Entity;
-import entity.tag.Repository;
+import entity.tag.*;
 import parser.XMLParserUtil;
 
 import java.io.IOException;
@@ -14,40 +11,44 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class AggregateValidation {
-    public static boolean aggregateCheck() throws IOException {
 
-        // String filePath = "src/main/resources/parser-test.xml";
+
+    // C16. An aggregate has one and only one aggregate root
+    public static boolean aggregateCheck3() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
 
-        //An aggregate’s data access has and can only be managed by a Repository
-        Iterator<Repository> it = xmi.getRepositories().listIterator();
-        HashSet<String> repositorySet = new HashSet<String>();
+        Iterator<Aggregate> it = xmi.getAggregates().listIterator();
+        int num = 0;
         while (it.hasNext()) {
-            Repository repository = it.next();
+            Aggregate aggregate = it.next();
+            Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
+            PackagedElement packagedElement = new PackagedElement();
+            while (elementIterator.hasNext()) {
+                PackagedElement packagedElement1 = elementIterator.next();
+                if (packagedElement1.getId() == aggregate.getBaseClass())//该element是aggregate
+                {
+                    packagedElement = packagedElement1;
+                    break;
+                }
+            }
+            Iterator<PackagedElement> elementIterator1 = packagedElement.getPackagedElements().listIterator();//聚合内部的成员
 
-            if (repository.getAccessingDomainObject() == null)
-                return false;
-
-            else if (repositorySet.contains(repository.getAccessingDomainObject()) == false)
-                repositorySet.add(repository.getAccessingDomainObject());
-            else
-                return false;
-
-
+            while (elementIterator1.hasNext()) {
+                PackagedElement packagedElement1 = elementIterator1.next();
+                if (Support.isAggregateRoot(packagedElement1, xmi)) ;
+                num++;
+            }
         }
 
-        return true;
+        if(num==1) return true;
+        else return false;
     }
-
-
-
-
 
     public static boolean aggregateCheck2() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
 
         Iterator<Aggregate> it = xmi.getAggregates().listIterator();
-//Aggregates can only contain the aggregate root and the aggregate part
+        //  C17. Except the aggregate root, an aggregate can only contain aggregate parts
         while (it.hasNext()) {
             Aggregate aggregate = it.next();
             Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
@@ -77,40 +78,69 @@ public class AggregateValidation {
 
 
 
-
-//Aggregates have one and only one aggregate root
-    public static boolean aggregateCheck3() throws IOException {
+    //C18. The creation of an aggregate should be done by a factory.
+    public static boolean aggregateCheck5() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
+        Iterator<PackagedElement> it = xmi.getUmlModel().getPackagedElement().listIterator();
 
-        Iterator<Aggregate> it = xmi.getAggregates().listIterator();
-        int num = 0;
-        while (it.hasNext()) {
-            Aggregate aggregate = it.next();
-            Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
-            PackagedElement packagedElement = new PackagedElement();
-            while (elementIterator.hasNext()) {
-                PackagedElement packagedElement1 = elementIterator.next();
-                if (packagedElement1.getId() == aggregate.getBaseClass())//该element是aggregate
+        while (it.hasNext()) {//遍历所有元素
+            PackagedElement packagedElement = it.next();
+            if (Support.isAggregate(packagedElement, xmi)) {//如果是聚合
+                Iterator<Factory> factoryIterator = xmi.getFactories().listIterator();
+                boolean temp =false;
+                while(factoryIterator.hasNext())
                 {
-                    packagedElement = packagedElement1;
-                    break;
+                    Factory factory =factoryIterator.next();
+                    if(factory.getCreatingDomainObject()==packagedElement.getId());//必须有一个factory负责该聚合的创建
+                    temp=true;
                 }
-            }
-            Iterator<PackagedElement> elementIterator1 = packagedElement.getPackagedElements().listIterator();//聚合内部的成员
+                if(!temp) return  false;
 
-            while (elementIterator1.hasNext()) {
-                PackagedElement packagedElement1 = elementIterator1.next();
-                if (Support.isAggregateRoot(packagedElement1, xmi)) ;
-                num++;
+
             }
+
+
         }
-
-       if(num==1) return true;
-       else return false;
+        return true;
     }
 
 
-    //Association between any two aggregates is not allowed through object reference.
+    //C19. The accessing of an aggregate should be done by a repository.
+
+        public static boolean aggregateCheck() throws IOException {
+            XMI xmi = XMLParserUtil.parserXML();
+            Iterator<PackagedElement> it = xmi.getUmlModel().getPackagedElement().listIterator();
+
+            while (it.hasNext()) {//遍历所有元素
+                PackagedElement packagedElement = it.next();
+                if (Support.isAggregate(packagedElement, xmi)) {//如果是聚合
+                    Iterator<Repository> repositoryIterator = xmi.getRepositories().listIterator();
+                    boolean temp =false;
+                    while(repositoryIterator.hasNext())
+                    {
+                        Repository repository =repositoryIterator.next();
+                        if(repository.getAccessingDomainObject()==packagedElement.getId());//必须有一个资源库访问该聚合
+                        temp=true;
+                    }
+                    if(!temp) return  false;
+
+
+                }
+
+
+            }
+            return true;
+        }
+
+
+
+
+
+
+
+
+
+   /* //Association between any two aggregates is not allowed through object reference.   该条约束 貌似删除了
     public static boolean aggregateCheck4() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
 
@@ -139,5 +169,9 @@ public class AggregateValidation {
         }
             return true;
 
-    }
+    }*/
+
+
+
+
 }

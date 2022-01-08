@@ -27,7 +27,7 @@ public class Validation {
             System.out.println(" error:Aggregates can only contain the aggregate root and the aggregate part.");
         if(AggregateValidation.aggregateCheck3() ==false)
             System.out.println(" error: Aggregates have one and only one aggregate root. ");
-        if(AggregateValidation.aggregateCheck4() ==false)
+        if(AggregateValidation.aggregateCheck5() ==false)
             System.out.println(" error:Association between any two aggregates is not allowed through object reference. ");
 
 

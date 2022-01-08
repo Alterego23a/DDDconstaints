@@ -9,7 +9,7 @@ import parser.XMLParserUtil;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class ValueObjectValidation {
+public class ValueObjectValidation {          // C3. A value object does not have an identity
     public static boolean valueObjectCheck() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<ValueObject> it = xmi.getValueObjects().listIterator();
