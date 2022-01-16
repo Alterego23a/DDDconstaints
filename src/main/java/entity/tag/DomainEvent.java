@@ -12,19 +12,19 @@ public class DomainEvent extends TagTemplate implements Serializable {
 
     private static final long serialVersionUID = -8281616205562160675L;
 
-    @JacksonXmlProperty(isAttribute = true,localName = "Identity")
-    private String identity;
+    @JacksonXmlProperty(isAttribute = true,localName = "identifier")
+    private String identifier;
 
     public DomainEvent() {
 
     }
 
-    public String getIdentity() {
-        return identity;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setIdentity(String identity) {
-        this.identity = identity;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
 }

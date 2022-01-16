@@ -7,6 +7,7 @@ import entity.tag.*;
 import entity.tag.Module;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -156,7 +157,8 @@ public class XMI implements Serializable {
     }
 
     public List<Aggregate> getAggregates() {
-        return aggregates;
+
+        return aggregates != null ? aggregates : new ArrayList<Aggregate>();
     }
 
     public void setAggregates(List<Aggregate> aggregates) {
@@ -169,7 +171,7 @@ public class XMI implements Serializable {
     }
 
     public List<AggregatePart> getAggregateParts() {
-        return aggregateParts;
+        return aggregateParts != null ? aggregateParts : new ArrayList<AggregatePart>();
     }
 
     public void setAggregateParts(List<AggregatePart> aggregateParts) {
@@ -182,7 +184,7 @@ public class XMI implements Serializable {
     }
 
     public List<AggregateRoot> getAggregateRoots() {
-        return aggregateRoots;
+        return aggregateRoots != null ? aggregateRoots : new ArrayList<AggregateRoot>();
     }
 
     public void setAggregateRoots(List<AggregateRoot> aggregateRoots) {
@@ -195,7 +197,7 @@ public class XMI implements Serializable {
     }
 
     public List<BoundedContext> getBoundedContexts() {
-        return boundedContexts;
+        return boundedContexts != null ? boundedContexts : new ArrayList<BoundedContext>();
     }
 
     public void setBoundedContexts(List<BoundedContext> boundedContexts) {
@@ -208,7 +210,8 @@ public class XMI implements Serializable {
     }
 
     public List<DomainEvent> getDomainEvents() {
-        return domainEvents;
+
+        return domainEvents != null ? domainEvents : new ArrayList<DomainEvent>();
     }
 
     public void setDomainEvents(List<DomainEvent> domainEvents) {
@@ -221,7 +224,8 @@ public class XMI implements Serializable {
     }
 
     public List<DomainService> getDomainServices() {
-        return domainServices;
+
+        return domainServices != null ? domainServices : new ArrayList<DomainService>();
     }
 
     public void setDomainServices(List<DomainService> domainServices) {
@@ -234,7 +238,7 @@ public class XMI implements Serializable {
     }
 
     public List<Entity> getEntities() {
-        return entities;
+        return entities != null ? entities: new ArrayList<Entity>();
     }
 
     public void setEntities(List<Entity> entities) {
@@ -247,7 +251,7 @@ public class XMI implements Serializable {
     }
 
     public List<Factory> getFactories() {
-        return factories;
+        return factories != null ? factories: new ArrayList<Factory>();
     }
 
     public void setFactories(List<Factory> factories) {
@@ -260,7 +264,8 @@ public class XMI implements Serializable {
     }
 
     public List<Module> getModules() {
-        return modules;
+
+        return modules != null ? modules: new ArrayList<Module>();
     }
 
     public void setModules(List<Module> modules) {
@@ -273,7 +278,7 @@ public class XMI implements Serializable {
     }
 
     public List<Repository> getRepositories() {
-        return repositories;
+        return repositories != null ? repositories: new ArrayList<Repository>();
     }
 
     public void setRepositories(List<Repository> repositories) {
@@ -286,7 +291,8 @@ public class XMI implements Serializable {
     }
 
     public List<ValueObject> getValueObjects() {
-        return valueObjects;
+
+        return valueObjects != null ? valueObjects: new ArrayList<ValueObject>();
     }
 
     public void setValueObjects(List<ValueObject> valueObjects) {

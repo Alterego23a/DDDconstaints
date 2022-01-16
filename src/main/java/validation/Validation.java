@@ -8,17 +8,19 @@ public class Validation {
     public static void main(String[] args) throws IOException {
         boolean flag=true;
        if(DomainServiceValidation.domainServiceCheck()==false)
-           System.out.println("领域服务错误");
-        if(EntityValidation.entityCheck()==false)
-            System.out.println("实体错误");
+           System.out.println("领域服务错误1");
+        if(EntityValidation.entityCheck3()==false)
+            System.out.println("实体错误33333");
+        if(EntityValidation.entityCheck2()==false)
+            System.out.println("实体错误2");
        if(ValueObjectValidation.valueObjectCheck()==false)
-           System.out.println("值对象错误");
+           System.out.println("值对象错误4");
        if(RepositoryValidation.repositoryCheck()==false)
-           System.out.println("资源库错误");
+           System.out.println("资源库错误5");
         if(AggregatedPartValidation.aggregatePartCheck()==false)
-            System.out.println("聚合部分错误");
+            System.out.println("聚合部分错误6");
         if(DomainEventValidation.domainEventCheck() ==false)
-            System.out.println("领域事件错误");
+            System.out.println("领域事件错误7");
 
 
         if(AggregateValidation.aggregateCheck() ==false)

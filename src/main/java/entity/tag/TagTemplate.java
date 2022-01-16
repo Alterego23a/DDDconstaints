@@ -79,7 +79,7 @@ public class TagTemplate extends BaseTag implements Serializable {
         this.ownedAttributes = ownedAttributes;
     }
 
-    public List<OwnedOperation> getOwnedOperations() {
+    /*public List<OwnedOperation> getOwnedOperations() {
         return ownedOperations != null ? ownedOperations: new ArrayList<OwnedOperation>();
     }
 
@@ -87,7 +87,7 @@ public class TagTemplate extends BaseTag implements Serializable {
     //    return ownedAttributes;
 
         return ownedAttributes != null ? ownedAttributes : new ArrayList<OwnedAttribute>();
-    }
+    }*/
 
     @Override
     public String toString() {

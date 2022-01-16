@@ -18,8 +18,9 @@ public class AggregateValidation {
         XMI xmi = XMLParserUtil.parserXML();
 
         Iterator<Aggregate> it = xmi.getAggregates().listIterator();
-        int num = 0;
+
         while (it.hasNext()) {
+            int num = 0;
             Aggregate aggregate = it.next();
             Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
             PackagedElement packagedElement = new PackagedElement();
@@ -35,13 +36,14 @@ public class AggregateValidation {
 
             while (elementIterator1.hasNext()) {
                 PackagedElement packagedElement1 = elementIterator1.next();
-                if (Support.isAggregateRoot(packagedElement1, xmi)) ;
+                if (Support.isAggregateRoot(packagedElement1, xmi))
                 num++;
             }
+            if(num!=1) return false;
         }
+        return true;
 
-        if(num==1) return true;
-        else return false;
+
     }
 
     public static boolean aggregateCheck2() throws IOException {

@@ -9,6 +9,9 @@
             <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
         </packageImport>
         <packagedElement xmi:type="uml:Class" xmi:id="_4v12MFDkEeyTeJLkupB1eQ" name="Class4" size="2323"/>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_ZYkW8GZREeyQRaS3pvwf2Q" name="aaaa" type="_vzO-cGZXEeyQRaS3pvwf2Q"/>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_LfwogGZbEeyQRaS3pvwf2Q" name="arriveLocation" type="_vzO-cGZXEeyQRaS3pvwf2Q"/>
+            <ownedOperation xmi:type="uml:Operation" xmi:id="_JrlWUGZ1EeyQRaS3pvwf2Q" name="findByTrackingId" visibility="public"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_5YMPoFDkEeyTeJLkupB1eQ" name="Class5"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_5jjyIFDkEeyTeJLkupB1eQ" name="Class6"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_8I9uIFDkEeyTeJLkupB1eQ" name="Class7"/>
@@ -51,7 +54,7 @@
             <appliedProfile xmi:type="uml:Profile" href="model.profile.uml#_YMxa4EeUEeyrcZPpN3mi4A"/>
         </profileApplication>
     </uml:Model>
-    <model:Entity xmi:id="_6fcLkFDkEeyTeJLkupB1eQ" xmi:base_Class="_4v12MFDkEeyTeJLkupB1eQ" Identity="434"/>
+    <model:Entity xmi:id="_6fcLkFDkEeyTeJLkupB1eQ" xmi:base_Class="_4v12MFDkEeyTeJLkupB1eQ" identifier="aaaa"/>
     <model:AggregatePart xmi:id="_7KBZoFDkEeyTeJLkupB1eQ" base_Class="_5YMPoFDkEeyTeJLkupB1eQ"/>
     <model:AggregateRoot xmi:id="_7wWZ0FDkEeyTeJLkupB1eQ" base_Class="_5jjyIFDkEeyTeJLkupB1eQ"/>
     <model:DomainEvent xmi:id="_8-EKIFDkEeyTeJLkupB1eQ" base_Class="_8I9uIFDkEeyTeJLkupB1eQ"/>
@@ -60,7 +63,6 @@
     <model:Repository xmi:id="_blRf0FDsEeyTeJLkupB1eQ" base_Class="_ROrjoFDlEeyTeJLkupB1eQ"/>
     <model:ValueObject xmi:id="_cVWR4FDsEeyTeJLkupB1eQ" base_Class="_bzDdIFDsEeyTeJLkupB1eQ"/>
     <model:ValueObject xmi:id="_eQtLUFDsEeyTeJLkupB1eQ" base_Class="_5YMPoFDkEeyTeJLkupB1eQ"/>
-    <model:Entity xmi:id="_fIyC0FDsEeyTeJLkupB1eQ" base_Class="_5jjyIFDkEeyTeJLkupB1eQ" Identity="434"/>
     <model:Aggregate xmi:id="_lQPwUFDsEeyTeJLkupB1eQ" base_Package="_jHq6QFDsEeyTeJLkupB1eQ"/>
     <model:BoundedContext xmi:id="_l0Mx8FDsEeyTeJLkupB1eQ" base_Package="_jYchMFDsEeyTeJLkupB1eQ"/>
     <model:Module xmi:id="_nBGC4FDsEeyTeJLkupB1eQ" base_Package="_jjRRIFDsEeyTeJLkupB1eQ"/>
@@ -68,13 +70,10 @@
     <model:BoundedContext xmi:id="_xGSxQFDsEeyTeJLkupB1eQ" base_Package="_uF4UQFDsEeyTeJLkupB1eQ"/>
     <model:Module xmi:id="_xjzMoFDsEeyTeJLkupB1eQ" base_Package="_uSi3QFDsEeyTeJLkupB1eQ"/>
     <model:Factory xmi:id="_0M-1YFDsEeyTeJLkupB1eQ" base_Class="_zJILsFDsEeyTeJLkupB1eQ"/>
-    <model:Entity xmi:id="_1jO2oFDsEeyTeJLkupB1eQ" base_Class="_0qf30FDsEeyTeJLkupB1eQ"/>
     <model:Repository xmi:id="_3JnloFDsEeyTeJLkupB1eQ" base_Class="_2GqT0FDsEeyTeJLkupB1eQ"/>
     <model:ValueObject xmi:id="_4dkg0FDsEeyTeJLkupB1eQ" base_Class="_3o7-4FDsEeyTeJLkupB1eQ"/>
     <model:DomainEvent xmi:id="_5qoJ0FDsEeyTeJLkupB1eQ" base_Class="_40iPUFDsEeyTeJLkupB1eQ"/>
     <model:DomainService xmi:id="_8fA9AFDsEeyTeJLkupB1eQ" base_Class="_5-ObQFDsEeyTeJLkupB1eQ"/>
     <model:AggregatePart xmi:id="__FNjMFDsEeyTeJLkupB1eQ" base_Class="_9hDBwFDsEeyTeJLkupB1eQ"/>
-    <model:Entity xmi:id="__FUQ4FDsEeyTeJLkupB1eQ" base_Class="_9hDBwFDsEeyTeJLkupB1eQ"/>
     <model:AggregateRoot xmi:id="_BdzyQFDtEeyTeJLkupB1eQ" base_Class="__WPBwFDsEeyTeJLkupB1eQ"/>
-    <model:Entity xmi:id="_Bd6f8FDtEeyTeJLkupB1eQ" base_Class="__WPBwFDsEeyTeJLkupB1eQ"/>
 </xmi:XMI>

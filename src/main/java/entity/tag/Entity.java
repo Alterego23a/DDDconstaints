@@ -12,7 +12,7 @@ public class Entity extends TagTemplate implements Serializable {
 
     private static final long serialVersionUID = 550261141909134026L;
 
-    @JacksonXmlProperty(isAttribute = true,localName = "Identity")
+    @JacksonXmlProperty(isAttribute = true,localName = "identifier")
     private String identifier;
 
     public Entity() {
