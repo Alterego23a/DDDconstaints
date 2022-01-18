@@ -12,50 +12,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class    DomainEventValidation {
-    public static boolean domainEventCheck() throws IOException {//C5. A domain event has and only has one identity.
-
-        // String filePath = "src/main/resources/parser-test.xml";
-        XMI xmi = XMLParserUtil.parserXML();
-
-        Iterator<DomainEvent> it = xmi.getDomainEvents().listIterator();
-        HashSet<String> domainEventSet = new HashSet<String>();
-        while (it.hasNext()) {
-            DomainEvent domainEvent = it.next();
-
-            Iterator<PackagedElement> elementIterator=xmi.getUmlModel().getPackagedElement().listIterator();
-
-            PackagedElement packagedElement =new PackagedElement();
-
-            while (elementIterator.hasNext())
-            {
-                PackagedElement packagedElement1 = elementIterator.next();
-                if(packagedElement1.getId().equals(domainEvent.getBaseClass()))
-                {
-                    packagedElement=packagedElement1;         //找到是entity的packagedElement
-                    break;
-                }
-            }
-
-            Iterator<OwnedAttribute> attributeIterator=packagedElement.getOwnedAttributes().listIterator();
-            while(attributeIterator.hasNext()) {
-                OwnedAttribute attribute= attributeIterator.next();
-
-                if (!domainEvent.getIdentifier().equals(attribute.getType()))//C. The identity of a domain event should be one of the attributes of the event itself
-                    return false;
-
-                else if (domainEventSet.contains(domainEvent.getIdentifier()) == false)
-                    domainEventSet.add(domainEvent.getIdentifier());
-                else
-                    return false;
-
-            }
-        }
-
-        return true;
-    }
 
 
-    public static boolean entityCheck() throws IOException {
+
+    public static boolean domainEventCheck() throws IOException {
 
         // String filePath = "src/main/resources/parser-test.xml";
         XMI xmi = XMLParserUtil.parserXML();
@@ -79,7 +39,7 @@ public class    DomainEventValidation {
             }
 
 
-            Iterator<OwnedAttribute> attributeIterator = packagedElement.getOwnedAttributes().listIterator();//C1. An entity has and only has one identity.
+            Iterator<OwnedAttribute> attributeIterator = packagedElement.getOwnedAttributes().listIterator();
             while (attributeIterator.hasNext()) {
                 OwnedAttribute attribute = attributeIterator.next();
 
@@ -96,7 +56,7 @@ public class    DomainEventValidation {
 
     }
 
-    public static boolean entityCheck3() throws IOException {
+    public static boolean domainEventCheck2() throws IOException {
 
         // String filePath = "src/main/resources/parser-test.xml";
         XMI xmi = XMLParserUtil.parserXML();
@@ -123,11 +83,11 @@ public class    DomainEventValidation {
             if(identifier.indexOf(',')==-1) {
                 boolean flag = false;
                 {
-                    Iterator<OwnedAttribute> attributeIterator =packagedElement.getOwnedAttributes().listIterator();//C1. An entity has and only has one identity.
+                    Iterator<OwnedAttribute> attributeIterator =packagedElement.getOwnedAttributes().listIterator();
                     while (attributeIterator.hasNext()) {
                         OwnedAttribute attribute = attributeIterator.next();
 
-                        if (identifier.equals(attribute.getName()))   // /the identity of an entity should be one of the attributes of the entity itself
+                        if (identifier.equals(attribute.getName()))
                             flag = true;
 
                     }

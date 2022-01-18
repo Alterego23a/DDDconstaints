@@ -2,10 +2,7 @@ package validation;
 
 import entity.PackagedElement;
 import entity.XMI;
-import entity.tag.Aggregate;
-import entity.tag.AggregatePart;
-import entity.tag.AggregateRoot;
-import entity.tag.Entity;
+import entity.tag.*;
 
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -19,7 +16,7 @@ public class Support {
         while (it.hasNext())
         {
             AggregatePart aggregatePart=it.next();
-            if(aggregatePart.getBaseClass()==packagedElement.getId())
+            if(aggregatePart.getBaseClass().equals(packagedElement.getId()))
                 return true;
         }
 
@@ -34,7 +31,7 @@ public class Support {
         while (it.hasNext())
         {
             AggregateRoot aggregateRoot=it.next();
-            if(aggregateRoot.getBaseClass()==packagedElement.getId())
+            if(aggregateRoot.getBaseClass().equals(packagedElement.getId()))
                 return true;
         }
 
@@ -48,10 +45,40 @@ public class Support {
         while (it.hasNext())
         {
             Aggregate aggregate=it.next();
-            if(aggregate.getBaseClass()==packagedElement.getId())
+            if(aggregate.getBaseClass().equals(packagedElement.getId()))
                 return true;
         }
 
         return false;
     }
+
+
+    public static boolean isEntity(PackagedElement packagedElement, XMI xmi)
+    {
+        Iterator<Entity> it=xmi.getEntities().listIterator();
+
+        while (it.hasNext())
+        {
+           Entity entity = it.next();
+            if(entity.getBaseClass().equals(packagedElement.getId()))
+                return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isValueObject(PackagedElement packagedElement, XMI xmi)
+    {
+        Iterator<ValueObject> it=xmi.getValueObjects().listIterator();
+
+        while (it.hasNext())
+        {
+            ValueObject valueObject = it.next();
+            if(valueObject.getBaseClass().equals(packagedElement.getId()))
+                return true;
+        }
+
+        return false;
+    }
+
 }

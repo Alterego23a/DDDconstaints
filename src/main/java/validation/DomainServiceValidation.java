@@ -25,7 +25,7 @@ public class DomainServiceValidation {
             {
 
                 PackagedElement packagedElement1 = elementIterator.next();
-                if(packagedElement1.getId()==domainService.getBaseClass())//该element是domainservice
+                if(packagedElement1.getId().equals(domainService.getBaseClass()))//该element是domainservice
                 {
 
                     packagedElement=packagedElement1;

@@ -26,7 +26,7 @@ public class ValueObjectValidation {          // C3. A value object does not hav
             while (elementIterator.hasNext())
             {
                 PackagedElement packagedElement1 = elementIterator.next();
-                if(packagedElement1.getId()==valueObject.getBaseClass())
+                if(packagedElement1.getId().equals(valueObject.getBaseClass()))
                 {
                     packagedElement=packagedElement1;
                     break;

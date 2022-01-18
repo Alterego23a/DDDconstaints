@@ -26,7 +26,7 @@ public class AggregateValidation {
             PackagedElement packagedElement = new PackagedElement();
             while (elementIterator.hasNext()) {
                 PackagedElement packagedElement1 = elementIterator.next();
-                if (packagedElement1.getId() == aggregate.getBaseClass())//该element是aggregate
+                if (packagedElement1.getId().equals( aggregate.getBaseClass()))//该element是aggregate
                 {
                     packagedElement = packagedElement1;
                     break;
@@ -58,7 +58,7 @@ public class AggregateValidation {
 
             while (elementIterator.hasNext()) {
                 PackagedElement packagedElement1 = elementIterator.next();
-                if (packagedElement1.getId() == aggregate.getBaseClass())//该element是aggregate
+                if (packagedElement1.getId() .equals( aggregate.getBaseClass()))//该element是aggregate
                 {
                     packagedElement = packagedElement1;
                     break;
@@ -93,7 +93,7 @@ public class AggregateValidation {
                 while(factoryIterator.hasNext())
                 {
                     Factory factory =factoryIterator.next();
-                    if(factory.getCreatingDomainObject()==packagedElement.getId());//必须有一个factory负责该聚合的创建
+                    if(factory.getCreatingDomainObject().equals(packagedElement.getId()))//必须有一个factory负责该聚合的创建
                     temp=true;
                 }
                 if(!temp) return  false;
@@ -121,7 +121,7 @@ public class AggregateValidation {
                     while(repositoryIterator.hasNext())
                     {
                         Repository repository =repositoryIterator.next();
-                        if(repository.getAccessingDomainObject()==packagedElement.getId());//必须有一个资源库访问该聚合
+                        if(repository.getAccessingDomainObject().equals(packagedElement.getId()))//必须有一个资源库访问该聚合
                         temp=true;
                     }
                     if(!temp) return  false;
@@ -142,8 +142,8 @@ public class AggregateValidation {
 
 
 
-   /* //Association between any two aggregates is not allowed through object reference.   该条约束 貌似删除了
-    public static boolean aggregateCheck4() throws IOException {
+    //Association between any two aggregates is not allowed through object reference.   该条约束 貌似删除了
+  /*  public static boolean aggregateCheck4() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
 
         Iterator<PackagedElement> it = xmi.getUmlModel().getPackagedElement().listIterator();
@@ -171,9 +171,52 @@ public class AggregateValidation {
         }
             return true;
 
-    }*/
+    }
+*/ //The objects within an aggregate should not be crosscutting different bounded contexts.
+    public static boolean aggregateCheck4() throws IOException {
+        XMI xmi = XMLParserUtil.parserXML();
 
 
+        Iterator<Aggregate> it = xmi.getAggregates().listIterator();
+        //  C17. Except the aggregate root, an aggregate can only contain aggregate parts
+        HashSet<String> aggregateMemberSet = new HashSet<String>();
+        aggregateMemberSet.add("uml:Property");//把基本数据类型加进去。
+        while (it.hasNext()) {
+            Aggregate aggregate = it.next();
+            Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
+            PackagedElement packagedElement = new PackagedElement();
 
+            while (elementIterator.hasNext()) {
+                PackagedElement packagedElement1 = elementIterator.next();
+                if (packagedElement1.getId().equals( aggregate.getBaseClass()))//该element是aggregate
+                {
+                    packagedElement = packagedElement1;
+                    break;
+                }
+            }
+
+            Iterator<PackagedElement> elementIteratorMember = packagedElement.getPackagedElements().listIterator();//聚合内部的所有成员
+     //       int num = 0;
+            while (elementIteratorMember.hasNext()) {
+                PackagedElement packagedElementMember = elementIteratorMember.next();
+                aggregateMemberSet.add(packagedElementMember.getId());//把聚合内部所有领域对象加到set里
+            }
+
+            elementIteratorMember = packagedElement.getPackagedElements().listIterator();//聚合内部的所有成员
+            while (elementIteratorMember.hasNext()) {
+                PackagedElement packagedElement1 = elementIteratorMember.next();
+                Iterator<OwnedAttribute> attributeIterator = packagedElement1.getOwnedAttributes().listIterator();//聚合内部的成员的属性
+//
+                while (attributeIterator.hasNext()) {//遍历所有属性
+                    OwnedAttribute attribute = attributeIterator.next();
+                    if (!aggregateMemberSet.contains(attribute.getType())) //如果该属性引用的type不是内部的，则错误
+                        return false;
+                }
+            }
+        }
+
+        return true;
+
+    }
 
 }

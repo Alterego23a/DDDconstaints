@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:metamodel="http:///schemas/metamodel/_ea80EHTpEeyr7pSBW6q-qA/10" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http:///schemas/metamodel/_ea80EHTpEeyr7pSBW6q-qA/10 ../metamodel/metamodel.profile.uml#_ebAecHTpEeyr7pSBW6q-qA">
+  <uml:Model xmi:id="_D7XFMHRMEeySv74UWMFJlg" name="1234">
+    <packageImport xmi:type="uml:PackageImport" xmi:id="_D7wGwHRMEeySv74UWMFJlg">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Class" xmi:id="_MU-6YHbwEeys0Jq20rLrkA" name="Class2">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_VfgwQHbwEeys0Jq20rLrkA" name="ab"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="__fFwkHbwEeys0Jq20rLrkA" name="cd"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="__rvsgHbwEeys0Jq20rLrkA" name="e"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_U1YOIHbwEeys0Jq20rLrkA" name="Operation1"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_Ta_kAHgSEeywVNniqCx9tA" name="Class4"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_hVPRUHgSEeywVNniqCx9tA" name="Class5"/>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_OgZpEHbwEeys0Jq20rLrkA">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Ogd6gHbwEeys0Jq20rLrkA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="../metamodel/metamodel.profile.uml#_ebAecHTpEeyr7pSBW6q-qA"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="../metamodel/metamodel.profile.uml#_rtKwIGD1Eey6kKyeqeMLPA"/>
+    </profileApplication>
+  </uml:Model>
+  <metamodel:Entity xmi:id="_PSnJIHbwEeys0Jq20rLrkA" identifier="ab,cd,e" base_Class="_MU-6YHbwEeys0Jq20rLrkA"/>
+  <metamodel:Repository xmi:id="_URV9MHgSEeywVNniqCx9tA" accessingDomainObject="_hVPRUHgSEeywVNniqCx9tA" base_Class="_Ta_kAHgSEeywVNniqCx9tA"/>
+  <metamodel:AggregatePart xmi:id="_uMGPAHgSEeywVNniqCx9tA" base_Class="_hVPRUHgSEeywVNniqCx9tA"/>
+</xmi:XMI>

@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class    EntityValidation {
+    //C1. An entity has and only has one identity.
     public static boolean entityCheck() throws IOException {
 
         // String filePath = "src/main/resources/parser-test.xml";
@@ -36,7 +37,7 @@ public class    EntityValidation {
             }
 
 
-            Iterator<OwnedAttribute> attributeIterator = packagedElement.getOwnedAttributes().listIterator();//C1. An entity has and only has one identity.
+            Iterator<OwnedAttribute> attributeIterator = packagedElement.getOwnedAttributes().listIterator();
             while (attributeIterator.hasNext()) {
                 OwnedAttribute attribute = attributeIterator.next();
                 if (entitySet.contains(e.getIdentifier()) == false)
@@ -52,6 +53,45 @@ public class    EntityValidation {
 
     }
 
+
+    public static boolean entityCheck2() throws IOException {//C2. An entity should has at least one domain behaviour.
+        // String filePath = "src/main/resources/parser-test.xml";
+        XMI xmi = XMLParserUtil.parserXML();
+
+        Iterator<Entity> it = xmi.getEntities().listIterator();
+        HashSet<String> entitySet = new HashSet<String>();
+        while (it.hasNext()) {
+            Entity e = it.next();
+
+            Iterator<PackagedElement> elementIterator=xmi.getUmlModel().getPackagedElement().listIterator();
+
+            PackagedElement packagedElement =new PackagedElement();
+
+            while (elementIterator.hasNext())
+            {
+                PackagedElement packagedElement1 = elementIterator.next();
+                if(packagedElement1.getId().equals(e.getBaseClass()))
+                {
+                    packagedElement=packagedElement1;         //找到是entity的packagedElement
+                    break;
+                }
+            }
+
+
+            //  PackagedElement packagedElement=elementIterator.next();
+            //assert packagedElement!=null;
+
+
+
+            if( packagedElement.getOwnedOperations().isEmpty())
+                return false;
+        }
+
+        return true;
+    }
+
+
+    //The identity of an entity should be designed as the composition of one or several it attributes.
     public static boolean entityCheck3() throws IOException {
 
         // String filePath = "src/main/resources/parser-test.xml";
@@ -124,42 +164,6 @@ public class    EntityValidation {
 
         return true;
     }
-
-    public static boolean entityCheck2() throws IOException {//C2. An entity should has at least one domain behaviour.
-        // String filePath = "src/main/resources/parser-test.xml";
-        XMI xmi = XMLParserUtil.parserXML();
-
-        Iterator<Entity> it = xmi.getEntities().listIterator();
-        HashSet<String> entitySet = new HashSet<String>();
-        while (it.hasNext()) {
-            Entity e = it.next();
-
-                Iterator<PackagedElement> elementIterator=xmi.getUmlModel().getPackagedElement().listIterator();
-
-                PackagedElement packagedElement =new PackagedElement();
-
-                while (elementIterator.hasNext())
-                {
-                    PackagedElement packagedElement1 = elementIterator.next();
-                    if(packagedElement1.getId().equals(e.getBaseClass()))
-                    {
-                        packagedElement=packagedElement1;         //找到是entity的packagedElement
-                        break;
-                    }
-                }
-
-
-                //  PackagedElement packagedElement=elementIterator.next();
-                //assert packagedElement!=null;
-
-
-
-                    if( packagedElement.getOwnedOperations().isEmpty())
-                        return false;
-                }
-
-            return true;
-            }
 
 
 

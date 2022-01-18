@@ -24,7 +24,7 @@ public class RepositoryValidation {
             while (elementIterator.hasNext())
             {
                 PackagedElement packagedElement1 = elementIterator.next();
-                if(packagedElement1.getId()==repository.getBaseClass())
+                if(packagedElement1.getId().equals(repository.getBaseClass()))//该packagedElement是repository
                 {
                     packagedElement=packagedElement1;
                     break;
@@ -36,5 +36,38 @@ public class RepositoryValidation {
                 return false;
         }
         return true;
+    }
+
+   // A repository needs to specify the object for which it is responsible for data access. The type of the object can be entity, value object, and aggregate root.
+
+    public static boolean repositoryCheck2() throws IOException {
+        XMI xmi = XMLParserUtil.parserXML();
+        Iterator<Repository> it = xmi.getRepositories().listIterator();
+
+        while (it.hasNext()) {
+            Repository repository = it.next();
+            Iterator<PackagedElement> elementIterator=xmi.getUmlModel().getPackagedElement().listIterator();
+            PackagedElement packagedElement =new PackagedElement();
+            while (elementIterator.hasNext())
+            {
+                PackagedElement packagedElement1 = elementIterator.next();
+                if(packagedElement1.getId().equals(repository.getAccessingDomainObject()))//找到getAccessingDomainObject()指示的packagedElement
+                {
+                    packagedElement=packagedElement1;
+                    break;
+                }
+            }
+
+            if(Support.isEntity(packagedElement,xmi)||Support.isValueObject(packagedElement,xmi)||Support.isAggregateRoot(packagedElement,xmi));
+            else
+                return false;
+
+
+
+
+        }
+
+        return true;
+
     }
 }

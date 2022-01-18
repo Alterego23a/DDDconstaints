@@ -40,7 +40,7 @@ public class AggregatedPartValidation {
                 while (itOtherAggregate.hasNext()) {//遍历其他element，找到是聚合的
 
                     PackagedElement otherAggregate = itOtherAggregate.next();
-                    if (Support.isAggregate(otherAggregate, xmi) && (otherAggregate.getId() != aggregate.getId()))//其他聚合
+                    if (Support.isAggregate(otherAggregate, xmi) && (!otherAggregate.getId().equals(aggregate.getId())))//其他聚合???????//
                     {
                         Iterator<PackagedElement> itOtherAggregatePart = otherAggregate.getPackagedElements().listIterator();//遍历其他聚合内部的聚合部分
                         while (itOtherAggregatePart.hasNext()) {
