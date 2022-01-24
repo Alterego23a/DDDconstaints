@@ -45,7 +45,7 @@ public class Support {
         while (it.hasNext())
         {
             Aggregate aggregate=it.next();
-            if(aggregate.getBaseClass().equals(packagedElement.getId()))
+            if(aggregate.getBasePackage().equals(packagedElement.getId()))
                 return true;
         }
 
@@ -80,5 +80,60 @@ public class Support {
 
         return false;
     }
+
+    public static boolean isDomainService(PackagedElement packagedElement, XMI xmi)
+    {
+        Iterator<DomainService> it=xmi.getDomainServices().listIterator();
+
+        while (it.hasNext())
+        {
+            DomainService domainService = it.next();
+            if(domainService.getBaseClass().equals(packagedElement.getId()))
+                return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isDomainEvent(PackagedElement packagedElement, XMI xmi)
+    {
+        Iterator<DomainEvent> it=xmi.getDomainEvents().listIterator();
+
+        while (it.hasNext())
+        {
+            DomainEvent domainEvent = it.next();
+            if(domainEvent.getBaseClass().equals(packagedElement.getId()))
+                return true;
+        }
+
+        return false;
+    }
+    public static boolean isFactory(PackagedElement packagedElement, XMI xmi)
+    {
+        Iterator<Factory> it=xmi.getFactories().listIterator();
+
+        while (it.hasNext())
+        {
+            Factory factory = it.next();
+            if(factory.getBaseClass().equals(packagedElement.getId()))
+                return true;
+        }
+
+        return false;
+    }
+    public static boolean isRepository(PackagedElement packagedElement, XMI xmi)
+    {
+        Iterator<Repository> it=xmi.getRepositories().listIterator();
+
+        while (it.hasNext())
+        {
+           Repository repository = it.next();
+            if(repository.getBaseClass().equals(packagedElement.getId()))
+                return true;
+        }
+
+        return false;
+    }
+
 
 }

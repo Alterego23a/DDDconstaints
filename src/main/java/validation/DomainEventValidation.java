@@ -14,48 +14,70 @@ import java.util.Iterator;
 public class    DomainEventValidation {
 
 
+//The identity of a domain event should be one of the attributes of the event itself.
+public static boolean domainEventCheck() throws IOException {
 
-    public static boolean domainEventCheck() throws IOException {
+    // String filePath = "src/main/resources/parser-test.xml";
+    XMI xmi = XMLParserUtil.parserXML();
 
-        // String filePath = "src/main/resources/parser-test.xml";
-        XMI xmi = XMLParserUtil.parserXML();
+    Iterator<DomainEvent> it = xmi.getDomainEvents().listIterator();
 
-
-        Iterator<DomainEvent> it = xmi.getDomainEvents().listIterator();
-        HashSet<String> domainEventSet = new HashSet<String>();
-        while (it.hasNext()) {
-            DomainEvent domainEvent = it.next();
+    while (it.hasNext()) {
+        DomainEvent domainEvent = it.next();
 //遍历所有是entity的packagedElement
-            Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
-
-            PackagedElement packagedElement = new PackagedElement();
-
-            while (elementIterator.hasNext()) {//从所有packagedElement中找到是entity的
-                PackagedElement packagedElement1 = elementIterator.next();
-                if (packagedElement1.getId().equals(domainEvent.getBaseClass())) {//从所有packagedElement中找到是entity的
-                    packagedElement = packagedElement1;
-                    break;
-                }
-            }
+        if (domainEvent.getIdentifier()==null)
+            return false;//如果至少有一个Identifier
 
 
-            Iterator<OwnedAttribute> attributeIterator = packagedElement.getOwnedAttributes().listIterator();
-            while (attributeIterator.hasNext()) {
-                OwnedAttribute attribute = attributeIterator.next();
 
-             if (domainEventSet.contains(domainEvent.getIdentifier()) == false)
-                    domainEventSet.add(domainEvent.getIdentifier());
-                else
-                    return false;
 
+        Iterator<PackagedElement> elementIterator=xmi.getUmlModel().getPackagedElement().listIterator();
+
+        PackagedElement packagedElement =new PackagedElement();
+
+        while (elementIterator.hasNext())
+        {
+            PackagedElement packagedElement1 = elementIterator.next();
+            if(packagedElement1.getId().equals(domainEvent.getBaseClass()))
+            {
+                packagedElement=packagedElement1;
+                break;                        //找到这个domainEvent所属的packagedElement
             }
         }
 
-        return true;
+
+        //  PackagedElement packagedElement=elementIterator.next();
+        //assert packagedElement!=null;
+
+        Iterator<OwnedAttribute> ownedAttributeIterator=packagedElement.getOwnedAttributes().listIterator();
 
 
+        while (ownedAttributeIterator.hasNext())
+        {
+            OwnedAttribute ownedAttribute= ownedAttributeIterator.next();
+            if(ownedAttribute.getName().indexOf("identity")!=-1||ownedAttribute.getName().indexOf("Identity")!=-1||ownedAttribute.getName().indexOf("Identifier")!=-1||ownedAttribute.getName().indexOf("identifier")!=-1)
+                return false;//属性中不能有其他identity  保证有且只有一个
+        }
     }
 
+
+
+    return true;
+
+}
+  /*  public static boolean domainEventCheck2() throws IOException {
+
+        XMI xmi = XMLParserUtil.parserXML();
+        Iterator<DomainEvent> it = xmi.getDomainEvents().listIterator();
+        while (it.hasNext()) {
+            DomainEvent domainEvent = it.next();
+            if(domainEvent.getTimesStamp())
+        }
+        }
+*/
+
+
+//The identiy of an entity should be designed as the composition of one or several it attributes.
     public static boolean domainEventCheck2() throws IOException {
 
         // String filePath = "src/main/resources/parser-test.xml";
@@ -80,7 +102,7 @@ public class    DomainEventValidation {
             String identifier=domainEvent.getIdentifier();
             int begin=0;
             boolean finish=true;//标记是否读到最后一个逗号后面的子串,false为读到，结束循环
-            if(identifier.indexOf(',')==-1) {
+            if(identifier.indexOf(' ')==-1) {
                 boolean flag = false;
                 {
                     Iterator<OwnedAttribute> attributeIterator =packagedElement.getOwnedAttributes().listIterator();
@@ -98,10 +120,10 @@ public class    DomainEventValidation {
             else{
                 while(finish) {
                     String temp = new String();
-                    if(identifier.indexOf(',',begin)!=-1)
+                    if(identifier.indexOf(' ',begin)!=-1)
                     {
-                        temp = identifier.substring(begin, identifier.indexOf(',', begin));//截取字符串
-                        begin = identifier.indexOf(',', begin) + 1;     //把起点重定位到下个逗号+1的位置
+                        temp = identifier.substring(begin, identifier.indexOf(' ', begin));//截取字符串
+                        begin = identifier.indexOf(' ', begin) + 1;     //把起点重定位到下个逗号+1的位置
 
                     }
                     else
@@ -128,4 +150,31 @@ public class    DomainEventValidation {
 
         return true;
     }
+
+    //9. A domain event needs a timestamp that records the time when the event happens.
+    public static boolean domainEventCheck3() throws IOException{
+        XMI xmi = XMLParserUtil.parserXML();
+        Iterator<DomainEvent> it = xmi.getDomainEvents().listIterator();
+        while (it.hasNext()) {
+            DomainEvent domainEvent = it.next();
+            if(domainEvent.getTimesStamp()==null)
+                return false;
+        }
+        return true;
+    }
+
+
+
+    //11. A domain event needs to specify the publisher and subscriber of the event.
+    public static boolean domainEventCheck4() throws IOException{
+        XMI xmi = XMLParserUtil.parserXML();
+        Iterator<DomainEvent> it = xmi.getDomainEvents().listIterator();
+        while (it.hasNext()) {
+            DomainEvent domainEvent = it.next();
+            if(domainEvent.getPublisher()==null||domainEvent.getSubscriber()==null)
+                return false;
+        }
+        return true;
+    }
+
 }

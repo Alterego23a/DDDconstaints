@@ -18,6 +18,14 @@ public class DomainEvent extends TagTemplate implements Serializable {
     public DomainEvent() {
 
     }
+    @JacksonXmlProperty(isAttribute = true,localName = "timesStamp")
+    private String timesStamp;
+
+    @JacksonXmlProperty(isAttribute = true,localName = "publisher")
+    private String publisher;
+
+    @JacksonXmlProperty(isAttribute = true,localName = "subscriber")
+    private String subscriber;
 
     public String getIdentifier() {
         return identifier;
@@ -27,4 +35,28 @@ public class DomainEvent extends TagTemplate implements Serializable {
         this.identifier = identifier;
     }
 
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public String getSubscriber() {
+        return subscriber;
+    }
+
+    public String getTimesStamp() {
+        return timesStamp;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public void setSubscriber(String subscriber) {
+        this.subscriber = subscriber;
+    }
+
+    public void setTimesStamp(String timesStamp) {
+        this.timesStamp = timesStamp;
+    }
 }
+

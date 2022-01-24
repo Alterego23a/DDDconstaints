@@ -34,15 +34,16 @@ public class ValueObjectValidation {          // C3. A value object does not hav
             }
 
 
-          //  PackagedElement packagedElement=elementIterator.next();
+            //  PackagedElement packagedElement=elementIterator.next();
             //assert packagedElement!=null;
 
             Iterator<OwnedAttribute> ownedAttributeIterator=packagedElement.getOwnedAttributes().listIterator();
 
+
             while (ownedAttributeIterator.hasNext())
             {
                 OwnedAttribute ownedAttribute= ownedAttributeIterator.next();
-                if(ownedAttribute.getName().indexOf("identity")!=-1||ownedAttribute.getName().indexOf("Identity")!=-1)
+                if(ownedAttribute.getName().indexOf("identity")!=-1||ownedAttribute.getName().indexOf("Identity")!=-1||ownedAttribute.getName().indexOf("Identifier")!=-1||ownedAttribute.getName().indexOf("identifier")!=-1)
                     return false;
             }
         }

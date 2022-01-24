@@ -13,8 +13,11 @@ import java.util.Iterator;
 public class AggregateValidation {
 
 
-    // C16. An aggregate has one and only one aggregate root
-    public static boolean aggregateCheck3() throws IOException {
+
+
+
+    // An aggregate has one and only one aggregate root
+    public static boolean aggregateCheck() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
 
         Iterator<Aggregate> it = xmi.getAggregates().listIterator();
@@ -26,7 +29,7 @@ public class AggregateValidation {
             PackagedElement packagedElement = new PackagedElement();
             while (elementIterator.hasNext()) {
                 PackagedElement packagedElement1 = elementIterator.next();
-                if (packagedElement1.getId().equals( aggregate.getBaseClass()))//该element是aggregate
+                if (packagedElement1.getId().equals( aggregate.getBasePackage()))//该element是aggregate
                 {
                     packagedElement = packagedElement1;
                     break;
@@ -37,7 +40,7 @@ public class AggregateValidation {
             while (elementIterator1.hasNext()) {
                 PackagedElement packagedElement1 = elementIterator1.next();
                 if (Support.isAggregateRoot(packagedElement1, xmi))
-                num++;
+                    num++;
             }
             if(num!=1) return false;
         }
@@ -46,11 +49,12 @@ public class AggregateValidation {
 
     }
 
+    //Except the aggregate root, an aggregate can only contain aggregate parts.
     public static boolean aggregateCheck2() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
 
         Iterator<Aggregate> it = xmi.getAggregates().listIterator();
-        //  C17. Except the aggregate root, an aggregate can only contain aggregate parts
+
         while (it.hasNext()) {
             Aggregate aggregate = it.next();
             Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
@@ -58,7 +62,7 @@ public class AggregateValidation {
 
             while (elementIterator.hasNext()) {
                 PackagedElement packagedElement1 = elementIterator.next();
-                if (packagedElement1.getId() .equals( aggregate.getBaseClass()))//该element是aggregate
+                if (packagedElement1.getId() .equals( aggregate.getBasePackage()))//该element是aggregate
                 {
                     packagedElement = packagedElement1;
                     break;
@@ -80,8 +84,8 @@ public class AggregateValidation {
 
 
 
-    //C18. The creation of an aggregate should be done by a factory.
-    public static boolean aggregateCheck5() throws IOException {
+    // The creation of an aggregate should be done by a factory.
+    public static boolean aggregateCheck3() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<PackagedElement> it = xmi.getUmlModel().getPackagedElement().listIterator();
 
@@ -93,8 +97,39 @@ public class AggregateValidation {
                 while(factoryIterator.hasNext())
                 {
                     Factory factory =factoryIterator.next();
+                    if(factory.getCreatingDomainObject()==null)
+                        return false;//getAccessingDomainObject不能为空
                     if(factory.getCreatingDomainObject().equals(packagedElement.getId()))//必须有一个factory负责该聚合的创建
-                    temp=true;
+                        temp=true;
+                }
+                if(!temp) return  false;
+
+
+            }
+
+
+        }
+        return true;
+    }
+    // The accessing of an aggregate should be done by a repository.
+
+    public static boolean aggregateCheck4() throws IOException {
+        XMI xmi = XMLParserUtil.parserXML();
+        Iterator<PackagedElement> it = xmi.getUmlModel().getPackagedElement().listIterator();
+
+        while (it.hasNext()) {//遍历所有元素
+            PackagedElement packagedElement = it.next();
+            if (Support.isAggregate(packagedElement, xmi)) {//如果是聚合
+                Iterator<Repository> repositoryIterator = xmi.getRepositories().listIterator();
+                boolean temp =false;
+                while(repositoryIterator.hasNext())
+                {
+                    Repository repository =repositoryIterator.next();
+                    if(repository.getAccessingDomainObject()==null)
+                        return false;//getAccessingDomainObject不能为空
+                    if(repository.getAccessingDomainObject().equals(packagedElement.getId()))//必须有一个资源库访问该聚合
+                        temp=true;
+
                 }
                 if(!temp) return  false;
 
@@ -107,32 +142,7 @@ public class AggregateValidation {
     }
 
 
-    //C19. The accessing of an aggregate should be done by a repository.
 
-        public static boolean aggregateCheck() throws IOException {
-            XMI xmi = XMLParserUtil.parserXML();
-            Iterator<PackagedElement> it = xmi.getUmlModel().getPackagedElement().listIterator();
-
-            while (it.hasNext()) {//遍历所有元素
-                PackagedElement packagedElement = it.next();
-                if (Support.isAggregate(packagedElement, xmi)) {//如果是聚合
-                    Iterator<Repository> repositoryIterator = xmi.getRepositories().listIterator();
-                    boolean temp =false;
-                    while(repositoryIterator.hasNext())
-                    {
-                        Repository repository =repositoryIterator.next();
-                        if(repository.getAccessingDomainObject().equals(packagedElement.getId()))//必须有一个资源库访问该聚合
-                        temp=true;
-                    }
-                    if(!temp) return  false;
-
-
-                }
-
-
-            }
-            return true;
-        }
 
 
 
@@ -173,7 +183,7 @@ public class AggregateValidation {
 
     }
 */ //The objects within an aggregate should not be crosscutting different bounded contexts.
-    public static boolean aggregateCheck4() throws IOException {
+    public static boolean aggregateCheck5() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
 
 
@@ -188,7 +198,7 @@ public class AggregateValidation {
 
             while (elementIterator.hasNext()) {
                 PackagedElement packagedElement1 = elementIterator.next();
-                if (packagedElement1.getId().equals( aggregate.getBaseClass()))//该element是aggregate
+                if (packagedElement1.getId().equals( aggregate.getBasePackage()))//该element是aggregate
                 {
                     packagedElement = packagedElement1;
                     break;
@@ -218,5 +228,6 @@ public class AggregateValidation {
         return true;
 
     }
+
 
 }

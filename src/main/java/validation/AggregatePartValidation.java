@@ -12,8 +12,31 @@ import parser.XMLParserUtil;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
-public class AggregatedPartValidation {
-    public static boolean aggregatePartCheck() throws IOException {// C15. The reference of an aggregate part cannot be held by the outside objects
+public class AggregatePartValidation {
+
+    //The aggregate part can only be designed as an entity or a value object.
+    public static boolean aggregatePartCheck() throws IOException {
+        XMI xmi = XMLParserUtil.parserXML();
+
+        Iterator<PackagedElement> packagedElementIterator= xmi.getUmlModel().getPackagedElement().listIterator();
+        while (packagedElementIterator.hasNext()) {
+            PackagedElement packagedElement = packagedElementIterator.next();
+            if(Support.isAggregatePart(packagedElement,xmi)){//对于AggregatePart
+                if(Support.isFactory(packagedElement,xmi)||Support.isDomainService(packagedElement,xmi)||Support.isDomainEvent(packagedElement,xmi)||Support.isAggregateRoot(packagedElement,xmi)||Support.isRepository(packagedElement,xmi))
+                    return false; //不能是除entity或value object之外的类型
+                if(Support.isEntity(packagedElement,xmi)&&Support.isValueObject(packagedElement,xmi)) //不能同时是entity或value object
+                    return false;
+                if(!Support.isEntity(packagedElement,xmi)&&!Support.isValueObject(packagedElement,xmi))//都不是
+                    return false;
+            }
+        }
+
+        return true;
+
+    }
+
+
+    public static boolean aggregatePartCheck2() throws IOException {// C15. The reference of an aggregate part cannot be held by the outside objects
         XMI xmi = XMLParserUtil.parserXML();
 
         Iterator<PackagedElement> itAggregate = xmi.getUmlModel().getPackagedElement().listIterator();
@@ -66,5 +89,6 @@ public class AggregatedPartValidation {
 
         return true;
     }
+
 }
 

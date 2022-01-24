@@ -41,4 +41,24 @@ public class DomainServiceValidation {
         }
         return true;
     }
+
+//    A domain service should not be designed as other patterns at the same time.
+    public static boolean domainServiceCheck2() throws IOException {
+        XMI xmi = XMLParserUtil.parserXML();
+
+        Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
+        while (elementIterator.hasNext())//遍历所有packagedElement
+        {
+            PackagedElement packagedElement =elementIterator.next();
+            if(Support.isDomainService(packagedElement,xmi)) //如果是DomainService
+            {
+                if(Support.isAggregateRoot(packagedElement,xmi)||Support.isDomainEvent(packagedElement,xmi)||Support.isFactory(packagedElement,xmi)||Support.isAggregatePart(packagedElement,xmi)||Support.isEntity(packagedElement,xmi)||Support.isValueObject(packagedElement,xmi)||Support.isRepository(packagedElement,xmi))
+                    return false;//如果同时是其他构造型 则报错
+            }
+        }
+
+
+        return true;
+
+    }
 }

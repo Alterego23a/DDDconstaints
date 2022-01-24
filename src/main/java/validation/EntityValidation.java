@@ -20,41 +20,131 @@ public class    EntityValidation {
         XMI xmi = XMLParserUtil.parserXML();
 
         Iterator<Entity> it = xmi.getEntities().listIterator();
-        HashSet<String> entitySet = new HashSet<String>();
+
         while (it.hasNext()) {
             Entity e = it.next();
 //遍历所有是entity的packagedElement
+                if (e.getIdentifier()==null)
+               return false;//如果至少有一个Identifier
+
+
+
+
+            Iterator<PackagedElement> elementIterator=xmi.getUmlModel().getPackagedElement().listIterator();
+
+            PackagedElement packagedElement =new PackagedElement();
+
+            while (elementIterator.hasNext())
+            {
+                PackagedElement packagedElement1 = elementIterator.next();
+                if(packagedElement1.getId().equals(e.getBaseClass()))
+                {
+                    packagedElement=packagedElement1;
+                    break;                        //找到这个entity所属的packagedElement
+                }
+            }
+
+
+            //  PackagedElement packagedElement=elementIterator.next();
+            //assert packagedElement!=null;
+
+            Iterator<OwnedAttribute> ownedAttributeIterator=packagedElement.getOwnedAttributes().listIterator();
+
+
+            while (ownedAttributeIterator.hasNext())
+            {
+                OwnedAttribute ownedAttribute= ownedAttributeIterator.next();
+                if(ownedAttribute.getName().indexOf("identity")!=-1||ownedAttribute.getName().indexOf("Identity")!=-1||ownedAttribute.getName().indexOf("Identifier")!=-1||ownedAttribute.getName().indexOf("identifier")!=-1)
+                    return false;//属性中不能有其他identity  保证有且只有一个
+            }
+        }
+
+
+
+        return true;
+
+    }
+
+
+    //The identity of an entity should be designed as the composition of one or several it attributes.
+    public static boolean entityCheck2() throws IOException {
+
+        // String filePath = "src/main/resources/parser-test.xml";
+        XMI xmi = XMLParserUtil.parserXML();
+
+        Iterator<Entity> it = xmi.getEntities().listIterator();
+        //HashSet<String> entitySet = new HashSet<String>();
+        while (it.hasNext()) {
+            Entity e = it.next();
             Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
 
             PackagedElement packagedElement = new PackagedElement();
 
-            while (elementIterator.hasNext()) {//从所有packagedElement中找到是entity的
+            while (elementIterator.hasNext()) {
                 PackagedElement packagedElement1 = elementIterator.next();
-                if (packagedElement1.getId().equals(e.getBaseClass())) {//从所有packagedElement中找到是entity的
+                if (packagedElement1.getId().equals(e.getBaseClass())) {
                     packagedElement = packagedElement1;
                     break;
                 }
             }
 
+            String identifier=e.getIdentifier();
+            int begin=0;
+            boolean finish=true;//标记是否读到最后一个逗号后面的子串,false为读到，结束循环
+            if(identifier.indexOf(' ')==-1) {
+                boolean flag = false;
+                {
+                    Iterator<OwnedAttribute> attributeIterator =packagedElement.getOwnedAttributes().listIterator();//C1. An entity has and only has one identity.
+                    while (attributeIterator.hasNext()) {
+                        OwnedAttribute attribute = attributeIterator.next();
 
-            Iterator<OwnedAttribute> attributeIterator = packagedElement.getOwnedAttributes().listIterator();
-            while (attributeIterator.hasNext()) {
-                OwnedAttribute attribute = attributeIterator.next();
-                if (entitySet.contains(e.getIdentifier()) == false)
-                    entitySet.add(e.getIdentifier());
-                else
-                    return false;
+                        if (identifier.equals(attribute.getName()))   // /the identity of an entity should be one of the attributes of the entity itself
+                            flag = true;
 
+                    }
+                    if (flag == false) return false;
+
+                }
+            }
+            else{
+                while(finish) {
+                    String temp = new String();
+                    if(identifier.indexOf(' ',begin)!=-1)
+                    {
+                        temp = identifier.substring(begin, identifier.indexOf(' ', begin));//截取字符串
+                        begin = identifier.indexOf(' ', begin) + 1;     //把起点重定位到下个逗号+1的位置
+
+                    }
+                    else
+                    {
+                        temp=identifier.substring(begin);
+                        finish=false; //循环可以结束
+                    }
+
+                    Iterator<OwnedAttribute> attributeIterator = packagedElement.getOwnedAttributes().listIterator();
+                    boolean flag=false;  //遍历属性的名字，含有temp则flag为true
+                    while(attributeIterator.hasNext()) {
+                        OwnedAttribute attribute = attributeIterator.next();
+
+                        if (temp.equals(attribute.getName()))   // /the identity of an entity should be one of the attributes of the entity itself
+                            flag=true;
+                    }
+
+                    if(flag==false) return false;
+
+
+                }
             }
         }
 
         return true;
-
-
     }
 
 
-    public static boolean entityCheck2() throws IOException {//C2. An entity should has at least one domain behaviour.
+
+
+    //An entity should has at least one domain behavior
+  public static boolean entityCheck3() throws IOException {
         // String filePath = "src/main/resources/parser-test.xml";
         XMI xmi = XMLParserUtil.parserXML();
 
@@ -85,81 +175,6 @@ public class    EntityValidation {
 
             if( packagedElement.getOwnedOperations().isEmpty())
                 return false;
-        }
-
-        return true;
-    }
-
-
-    //The identity of an entity should be designed as the composition of one or several it attributes.
-    public static boolean entityCheck3() throws IOException {
-
-        // String filePath = "src/main/resources/parser-test.xml";
-        XMI xmi = XMLParserUtil.parserXML();
-
-        Iterator<Entity> it = xmi.getEntities().listIterator();
-        //HashSet<String> entitySet = new HashSet<String>();
-        while (it.hasNext()) {
-            Entity e = it.next();
-            Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
-
-            PackagedElement packagedElement = new PackagedElement();
-
-            while (elementIterator.hasNext()) {
-                PackagedElement packagedElement1 = elementIterator.next();
-                if (packagedElement1.getId().equals(e.getBaseClass())) {
-                    packagedElement = packagedElement1;
-                    break;
-                }
-            }
-
-            String identifier=e.getIdentifier();
-            int begin=0;
-            boolean finish=true;//标记是否读到最后一个逗号后面的子串,false为读到，结束循环
-            if(identifier.indexOf(',')==-1) {
-                boolean flag = false;
-                {
-                    Iterator<OwnedAttribute> attributeIterator =packagedElement.getOwnedAttributes().listIterator();//C1. An entity has and only has one identity.
-                    while (attributeIterator.hasNext()) {
-                        OwnedAttribute attribute = attributeIterator.next();
-
-                        if (identifier.equals(attribute.getName()))   // /the identity of an entity should be one of the attributes of the entity itself
-                            flag = true;
-
-                    }
-                    if (flag == false) return false;
-
-                }
-            }
-            else{
-                while(finish) {
-                    String temp = new String();
-                    if(identifier.indexOf(',',begin)!=-1)
-                    {
-                        temp = identifier.substring(begin, identifier.indexOf(',', begin));//截取字符串
-                        begin = identifier.indexOf(',', begin) + 1;     //把起点重定位到下个逗号+1的位置
-
-                    }
-                    else
-                    {
-                        temp=identifier.substring(begin);
-                        finish=false; //循环可以结束
-                    }
-
-                    Iterator<OwnedAttribute> attributeIterator = packagedElement.getOwnedAttributes().listIterator();
-                    boolean flag=false;  //遍历属性的名字，含有temp则flag为true
-                    while(attributeIterator.hasNext()) {
-                        OwnedAttribute attribute = attributeIterator.next();
-
-                        if (temp.equals(attribute.getName()))   // /the identity of an entity should be one of the attributes of the entity itself
-                           flag=true;
-                    }
-
-                    if(flag==false) return false;
-
-
-                }
-            }
         }
 
         return true;

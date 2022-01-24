@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import entity.XMI;
+import validation.DomainEventValidation;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,6 +18,8 @@ public class XMLParser {
         JacksonXmlModule jacksonXmlModule = new JacksonXmlModule();
         XmlMapper xmlMapper = new XmlMapper(jacksonXmlModule);
         XMI xmi = xmlMapper.readValue(fileInputStream, XMI.class);
-        System.out.println(xmi.toString());
+       // DomainEventValidation.domainEventCheckTest();
+
+
     }
 }
