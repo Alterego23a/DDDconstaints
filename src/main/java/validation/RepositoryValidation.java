@@ -17,38 +17,49 @@ public class RepositoryValidation {
 
     // A repository needs to specify the object for which it is responsible for data access. The type of the object can be entity, value object, and aggregate root.
 
-    public static boolean repositoryCheck() throws IOException {
+    public static PackagedElement repositoryCheck() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<Repository> it = xmi.getRepositories().listIterator();
 
         while (it.hasNext()) {//遍历所有Repository
             Repository repository = it.next();
             Iterator<PackagedElement> elementIterator=xmi.getUmlModel().getPackagedElement().listIterator();
-            PackagedElement packagedElement =new PackagedElement();
+            PackagedElement packagedElementAccessing =new PackagedElement();
             while (elementIterator.hasNext())//遍历所有packagedElement
             {
                 PackagedElement packagedElement1 = elementIterator.next();
                 if(packagedElement1.getId().equals(repository.getAccessingDomainObject()))//找到getAccessingDomainObject()指示的packagedElement
                 {
-                    packagedElement=packagedElement1;//取得getAccessingDomainObject()指示的packagedElement
+                    packagedElementAccessing=packagedElement1;//取得getAccessingDomainObject()指示的packagedElement
+                    break;
+                }
+            }
+            elementIterator=xmi.getUmlModel().getPackagedElement().listIterator();
+            PackagedElement packagedElement =new PackagedElement();
+            while (elementIterator.hasNext())//遍历所有packagedElement
+            {
+                PackagedElement packagedElement1 = elementIterator.next();
+                  if(packagedElement1.getId().equals(repository.getBaseClass()))//
+                {
+                    packagedElement=packagedElement1;
                     break;
                 }
             }
 
-            if(Support.isEntity(packagedElement,xmi)||Support.isValueObject(packagedElement,xmi)||Support.isAggregateRoot(packagedElement,xmi));
+            if(Support.isEntity(packagedElementAccessing,xmi)||Support.isValueObject(packagedElementAccessing,xmi)||Support.isAggregateRoot(packagedElementAccessing,xmi));
             else
-                return false;
+                return packagedElement;
 
 
 
 
         }
 
-        return true;
+        return null;
 
     }
     // A repository has no attributes
-    public static boolean repositoryCheck2() throws IOException {
+    public static PackagedElement repositoryCheck2() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<Repository> it = xmi.getRepositories().listIterator();
 
@@ -69,14 +80,14 @@ public class RepositoryValidation {
             //  PackagedElement packagedElement=elementIterator.next();
             //assert packagedElement!=null;
             if(!packagedElement.getOwnedAttributes().isEmpty())
-                return false;
+                return packagedElement;
         }
-        return true;
+        return null;
     }
 
 //A repository should not be designed as other patterns at the same time.
 
-    public static boolean repositoryCheck3() throws IOException {
+    public static PackagedElement repositoryCheck3() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
 
         Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
@@ -86,12 +97,12 @@ public class RepositoryValidation {
             if(Support.isRepository(packagedElement,xmi))
             {
                 if(Support.isAggregateRoot(packagedElement,xmi)||Support.isDomainEvent(packagedElement,xmi)||Support.isDomainService(packagedElement,xmi)||Support.isAggregatePart(packagedElement,xmi)||Support.isEntity(packagedElement,xmi)||Support.isValueObject(packagedElement,xmi)||Support.isFactory(packagedElement,xmi))
-                    return false;//如果同时是其他构造型 则报错
+                    return packagedElement;//如果同时是其他构造型 则报错
             }
         }
 
 
-        return true;
+        return null;
 
     }
 }

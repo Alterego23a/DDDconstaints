@@ -15,7 +15,7 @@ public class    DomainEventValidation {
 
 
 //The identity of a domain event should be one of the attributes of the event itself.
-public static boolean domainEventCheck() throws IOException {
+public static PackagedElement domainEventCheck() throws IOException {
 
     // String filePath = "src/main/resources/parser-test.xml";
     XMI xmi = XMLParserUtil.parserXML();
@@ -25,8 +25,7 @@ public static boolean domainEventCheck() throws IOException {
     while (it.hasNext()) {
         DomainEvent domainEvent = it.next();
 //遍历所有是entity的packagedElement
-        if (domainEvent.getIdentifier()==null)
-            return false;//如果至少有一个Identifier
+
 
 
 
@@ -44,7 +43,8 @@ public static boolean domainEventCheck() throws IOException {
                 break;                        //找到这个domainEvent所属的packagedElement
             }
         }
-
+        if (domainEvent.getIdentifier()==null)
+            return packagedElement;//如果至少有一个Identifier
 
         //  PackagedElement packagedElement=elementIterator.next();
         //assert packagedElement!=null;
@@ -56,13 +56,13 @@ public static boolean domainEventCheck() throws IOException {
         {
             OwnedAttribute ownedAttribute= ownedAttributeIterator.next();
             if(ownedAttribute.getName().indexOf("identity")!=-1||ownedAttribute.getName().indexOf("Identity")!=-1||ownedAttribute.getName().indexOf("Identifier")!=-1||ownedAttribute.getName().indexOf("identifier")!=-1)
-                return false;//属性中不能有其他identity  保证有且只有一个
+                return packagedElement;//属性中不能有其他identity  保证有且只有一个
         }
     }
 
 
 
-    return true;
+    return null;
 
 }
   /*  public static boolean domainEventCheck2() throws IOException {
@@ -77,8 +77,8 @@ public static boolean domainEventCheck() throws IOException {
 */
 
 
-//The identiy of an entity should be designed as the composition of one or several it attributes.
-    public static boolean domainEventCheck2() throws IOException {
+//The identiy of an domainEvent should be designed as the composition of one or several it attributes.
+    public static PackagedElement domainEventCheck2() throws IOException {
 
         // String filePath = "src/main/resources/parser-test.xml";
         XMI xmi = XMLParserUtil.parserXML();
@@ -100,6 +100,8 @@ public static boolean domainEventCheck() throws IOException {
             }
 
             String identifier=domainEvent.getIdentifier();
+            if(identifier==null)
+                return packagedElement;
             int begin=0;
             boolean finish=true;//标记是否读到最后一个逗号后面的子串,false为读到，结束循环
             if(identifier.indexOf(' ')==-1) {
@@ -113,7 +115,7 @@ public static boolean domainEventCheck() throws IOException {
                             flag = true;
 
                     }
-                    if (flag == false) return false;
+                    if (flag == false) return packagedElement;
 
                 }
             }
@@ -141,40 +143,67 @@ public static boolean domainEventCheck() throws IOException {
                             flag=true;
                     }
 
-                    if(flag==false) return false;
+                    if(flag==false) return packagedElement;
 
 
                 }
             }
         }
 
-        return true;
+        return null;
     }
 
     //9. A domain event needs a timestamp that records the time when the event happens.
-    public static boolean domainEventCheck3() throws IOException{
+    public static PackagedElement domainEventCheck3() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<DomainEvent> it = xmi.getDomainEvents().listIterator();
         while (it.hasNext()) {
             DomainEvent domainEvent = it.next();
-            if(domainEvent.getTimesStamp()==null)
-                return false;
+
+            Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
+
+            PackagedElement packagedElement = new PackagedElement();
+
+            while (elementIterator.hasNext()) {
+                PackagedElement packagedElement1 = elementIterator.next();
+                if (packagedElement1.getId().equals(domainEvent.getBaseClass())) {
+                    packagedElement = packagedElement1;
+                    break;
+                }
+            }
+
+            if (domainEvent.getTimesStamp() == null) {
+                return packagedElement;
+            }
+
         }
-        return true;
+        return null;
     }
 
-
-
     //11. A domain event needs to specify the publisher and subscriber of the event.
-    public static boolean domainEventCheck4() throws IOException{
+    public static PackagedElement domainEventCheck4() throws IOException{
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<DomainEvent> it = xmi.getDomainEvents().listIterator();
         while (it.hasNext()) {
             DomainEvent domainEvent = it.next();
+
+            Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
+
+            PackagedElement packagedElement = new PackagedElement();
+
+            while (elementIterator.hasNext()) {
+                PackagedElement packagedElement1 = elementIterator.next();
+                if (packagedElement1.getId().equals(domainEvent.getBaseClass())) {
+                    packagedElement = packagedElement1;
+                    break;
+                }
+            }
+
+
             if(domainEvent.getPublisher()==null||domainEvent.getSubscriber()==null)
-                return false;
+                return packagedElement;
         }
-        return true;
+        return null;
     }
 
 }

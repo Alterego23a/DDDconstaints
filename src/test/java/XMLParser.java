@@ -19,7 +19,7 @@ public class XMLParser {
         XmlMapper xmlMapper = new XmlMapper(jacksonXmlModule);
         XMI xmi = xmlMapper.readValue(fileInputStream, XMI.class);
        // DomainEventValidation.domainEventCheckTest();
-
+        System.out.println(xmi.toString());
 
     }
 }

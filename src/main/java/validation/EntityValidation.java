@@ -14,7 +14,7 @@ import java.util.Iterator;
 
 public class    EntityValidation {
     //C1. An entity has and only has one identity.
-    public static boolean entityCheck() throws IOException {
+    public static PackagedElement entityCheck() throws IOException {
 
         // String filePath = "src/main/resources/parser-test.xml";
         XMI xmi = XMLParserUtil.parserXML();
@@ -24,8 +24,7 @@ public class    EntityValidation {
         while (it.hasNext()) {
             Entity e = it.next();
 //遍历所有是entity的packagedElement
-                if (e.getIdentifier()==null)
-               return false;//如果至少有一个Identifier
+
 
 
 
@@ -44,6 +43,12 @@ public class    EntityValidation {
                 }
             }
 
+            if (e.getIdentifier()==null)
+            {
+
+                return packagedElement;//如果至少有一个Identifier
+
+            }
 
             //  PackagedElement packagedElement=elementIterator.next();
             //assert packagedElement!=null;
@@ -55,19 +60,25 @@ public class    EntityValidation {
             {
                 OwnedAttribute ownedAttribute= ownedAttributeIterator.next();
                 if(ownedAttribute.getName().indexOf("identity")!=-1||ownedAttribute.getName().indexOf("Identity")!=-1||ownedAttribute.getName().indexOf("Identifier")!=-1||ownedAttribute.getName().indexOf("identifier")!=-1)
-                    return false;//属性中不能有其他identity  保证有且只有一个
+
+                {
+
+
+                    return packagedElement;
+                    //属性中不能有其他identity  保证有且只有一个
+                }
             }
         }
 
 
 
-        return true;
+        return null;
 
     }
 
 
     //The identity of an entity should be designed as the composition of one or several it attributes.
-    public static boolean entityCheck2() throws IOException {
+    public static PackagedElement entityCheck2() throws IOException {
 
         // String filePath = "src/main/resources/parser-test.xml";
         XMI xmi = XMLParserUtil.parserXML();
@@ -89,6 +100,8 @@ public class    EntityValidation {
             }
 
             String identifier=e.getIdentifier();
+            if (identifier==null)
+                return packagedElement;
             int begin=0;
             boolean finish=true;//标记是否读到最后一个逗号后面的子串,false为读到，结束循环
             if(identifier.indexOf(' ')==-1) {
@@ -102,7 +115,7 @@ public class    EntityValidation {
                             flag = true;
 
                     }
-                    if (flag == false) return false;
+                    if (flag == false) return packagedElement;
 
                 }
             }
@@ -130,21 +143,21 @@ public class    EntityValidation {
                             flag=true;
                     }
 
-                    if(flag==false) return false;
+                    if(flag==false) return packagedElement;
 
 
                 }
             }
         }
 
-        return true;
+        return null;
     }
 
 
 
 
     //An entity should has at least one domain behavior
-  public static boolean entityCheck3() throws IOException {
+  public static PackagedElement entityCheck3() throws IOException {
         // String filePath = "src/main/resources/parser-test.xml";
         XMI xmi = XMLParserUtil.parserXML();
 
@@ -174,10 +187,10 @@ public class    EntityValidation {
 
 
             if( packagedElement.getOwnedOperations().isEmpty())
-                return false;
+                return packagedElement;
         }
 
-        return true;
+        return null;
     }
 
 

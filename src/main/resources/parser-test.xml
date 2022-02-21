@@ -8,10 +8,11 @@
         <packageImport xmi:type="uml:PackageImport" xmi:id="_4Zi7gFAzEey2xPcc0IKGUg">
             <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
         </packageImport>
-        <packagedElement xmi:type="uml:Class" xmi:id="_4v12MFDkEeyTeJLkupB1eQ" name="Class4" size="2323"/>
+        <packagedElement xmi:type="uml:Class" xmi:id="_4v12MFDkEeyTeJLkupB1eQ" name="Class4">
             <ownedAttribute xmi:type="uml:Property" xmi:id="_ZYkW8GZREeyQRaS3pvwf2Q" name="aaaa" type="_vzO-cGZXEeyQRaS3pvwf2Q"/>
             <ownedAttribute xmi:type="uml:Property" xmi:id="_LfwogGZbEeyQRaS3pvwf2Q" name="arriveLocation" type="_vzO-cGZXEeyQRaS3pvwf2Q"/>
             <ownedOperation xmi:type="uml:Operation" xmi:id="_JrlWUGZ1EeyQRaS3pvwf2Q" name="findByTrackingId" visibility="public"/>
+        </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_5YMPoFDkEeyTeJLkupB1eQ" name="Class5"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_5jjyIFDkEeyTeJLkupB1eQ" name="Class6"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_8I9uIFDkEeyTeJLkupB1eQ" name="Class7"/>
@@ -54,7 +55,7 @@
             <appliedProfile xmi:type="uml:Profile" href="model.profile.uml#_YMxa4EeUEeyrcZPpN3mi4A"/>
         </profileApplication>
     </uml:Model>
-    <model:Entity xmi:id="_6fcLkFDkEeyTeJLkupB1eQ" xmi:base_Class="_4v12MFDkEeyTeJLkupB1eQ" identifier="aaaa"/>
+    <model:Entity xmi:id="_6fcLkFDkEeyTeJLkupB1eQ" xmi:base_Class="_4v12MFDkEeyTeJLkupB1eQ" />
     <model:AggregatePart xmi:id="_7KBZoFDkEeyTeJLkupB1eQ" base_Class="_5YMPoFDkEeyTeJLkupB1eQ"/>
     <model:AggregateRoot xmi:id="_7wWZ0FDkEeyTeJLkupB1eQ" base_Class="_5jjyIFDkEeyTeJLkupB1eQ"/>
     <model:DomainEvent xmi:id="_8-EKIFDkEeyTeJLkupB1eQ" base_Class="_8I9uIFDkEeyTeJLkupB1eQ"/>

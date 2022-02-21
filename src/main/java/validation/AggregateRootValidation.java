@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 public class AggregateRootValidation {
-    public static boolean aggregateRootCheck() throws IOException {
+    public static PackagedElement aggregateRootCheck() throws IOException {
 
             XMI xmi = XMLParserUtil.parserXML();
 
@@ -22,13 +22,13 @@ public class AggregateRootValidation {
                 PackagedElement packagedElement = packagedElementIterator.next();
                 if(Support.isAggregateRoot(packagedElement,xmi)){//对于AggregateRoot
                     if(Support.isFactory(packagedElement,xmi)||Support.isDomainService(packagedElement,xmi)||Support.isDomainEvent(packagedElement,xmi)||Support.isAggregatePart(packagedElement,xmi)||Support.isRepository(packagedElement,xmi))
-                        return false; //不能是除entity之外的类型
+                        return packagedElement; //不能是除entity之外的类型
                     if(!Support.isEntity(packagedElement,xmi))//必须是Entity
-                        return false;
+                        return packagedElement;
                 }
             }
 
-            return true;
+            return null;
     }
 }
 

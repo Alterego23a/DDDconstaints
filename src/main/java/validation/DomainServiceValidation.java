@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 public class DomainServiceValidation {
-    public static boolean domainServiceCheck() throws IOException {//C9. A domain service is stateless.
+    public static PackagedElement domainServiceCheck() throws IOException {//C9. A domain service is stateless.
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<DomainService> it = xmi.getDomainServices().listIterator();
 
@@ -37,13 +37,13 @@ public class DomainServiceValidation {
             //assert packagedElement!=null;
        //     if(packagedElement==null) return true;
           if(!packagedElement.getOwnedAttributes().isEmpty())
-                return false;
+                return packagedElement;
         }
-        return true;
+        return null;
     }
 
 //    A domain service should not be designed as other patterns at the same time.
-    public static boolean domainServiceCheck2() throws IOException {
+    public static PackagedElement domainServiceCheck2() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
 
         Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
@@ -53,12 +53,12 @@ public class DomainServiceValidation {
             if(Support.isDomainService(packagedElement,xmi)) //如果是DomainService
             {
                 if(Support.isAggregateRoot(packagedElement,xmi)||Support.isDomainEvent(packagedElement,xmi)||Support.isFactory(packagedElement,xmi)||Support.isAggregatePart(packagedElement,xmi)||Support.isEntity(packagedElement,xmi)||Support.isValueObject(packagedElement,xmi)||Support.isRepository(packagedElement,xmi))
-                    return false;//如果同时是其他构造型 则报错
+                    return packagedElement;//如果同时是其他构造型 则报错
             }
         }
 
 
-        return true;
+        return null;
 
     }
 }

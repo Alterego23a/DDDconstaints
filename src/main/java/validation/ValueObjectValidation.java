@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 public class ValueObjectValidation {          // C3. A value object does not have an identity
-    public static boolean valueObjectCheck() throws IOException {
+    public static PackagedElement valueObjectCheck() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<ValueObject> it = xmi.getValueObjects().listIterator();
 
@@ -44,11 +44,11 @@ public class ValueObjectValidation {          // C3. A value object does not hav
             {
                 OwnedAttribute ownedAttribute= ownedAttributeIterator.next();
                 if(ownedAttribute.getName().indexOf("identity")!=-1||ownedAttribute.getName().indexOf("Identity")!=-1||ownedAttribute.getName().indexOf("Identifier")!=-1||ownedAttribute.getName().indexOf("identifier")!=-1)
-                    return false;
+                    return packagedElement;
             }
         }
 
 
-        return true;
+        return null;
     }
 }

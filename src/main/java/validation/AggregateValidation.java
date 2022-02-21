@@ -17,7 +17,7 @@ public class AggregateValidation {
 
 
     // An aggregate has one and only one aggregate root
-    public static boolean aggregateCheck() throws IOException {
+    public static PackagedElement aggregateCheck() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
 
         Iterator<Aggregate> it = xmi.getAggregates().listIterator();
@@ -42,15 +42,15 @@ public class AggregateValidation {
                 if (Support.isAggregateRoot(packagedElement1, xmi))
                     num++;
             }
-            if(num!=1) return false;
+            if(num!=1) return packagedElement;
         }
-        return true;
+        return null;
 
 
     }
 
     //Except the aggregate root, an aggregate can only contain aggregate parts.
-    public static boolean aggregateCheck2() throws IOException {
+    public static PackagedElement aggregateCheck2() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
 
         Iterator<Aggregate> it = xmi.getAggregates().listIterator();
@@ -75,17 +75,17 @@ public class AggregateValidation {
             while (elementIterator1.hasNext()) {
                 PackagedElement packagedElement1 = elementIterator1.next();
                 if (Support.isAggregatePart(packagedElement1, xmi) || Support.isAggregateRoot(packagedElement1, xmi)) ;
-                else return false;
+                else return packagedElement;
             }
         }
 
-        return true;
+        return null;
     }
 
 
 
     // The creation of an aggregate should be done by a factory.
-    public static boolean aggregateCheck3() throws IOException {
+    public static PackagedElement aggregateCheck3() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<PackagedElement> it = xmi.getUmlModel().getPackagedElement().listIterator();
 
@@ -98,22 +98,22 @@ public class AggregateValidation {
                 {
                     Factory factory =factoryIterator.next();
                     if(factory.getCreatingDomainObject()==null)
-                        return false;//getAccessingDomainObject不能为空
+                        return packagedElement;//getAccessingDomainObject不能为空
                     if(factory.getCreatingDomainObject().equals(packagedElement.getId()))//必须有一个factory负责该聚合的创建
                         temp=true;
                 }
-                if(!temp) return  false;
+                if(!temp) return  packagedElement;
 
 
             }
 
 
         }
-        return true;
+        return null;
     }
     // The accessing of an aggregate should be done by a repository.
 
-    public static boolean aggregateCheck4() throws IOException {
+        public static PackagedElement aggregateCheck4() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
         Iterator<PackagedElement> it = xmi.getUmlModel().getPackagedElement().listIterator();
 
@@ -126,19 +126,19 @@ public class AggregateValidation {
                 {
                     Repository repository =repositoryIterator.next();
                     if(repository.getAccessingDomainObject()==null)
-                        return false;//getAccessingDomainObject不能为空
+                        return packagedElement;//getAccessingDomainObject不能为空
                     if(repository.getAccessingDomainObject().equals(packagedElement.getId()))//必须有一个资源库访问该聚合
                         temp=true;
 
                 }
-                if(!temp) return  false;
+                if(!temp) return  packagedElement;
 
 
             }
 
 
         }
-        return true;
+        return null;
     }
 
 
@@ -183,7 +183,7 @@ public class AggregateValidation {
 
     }
 */ //The objects within an aggregate should not be crosscutting different bounded contexts.
-    public static boolean aggregateCheck5() throws IOException {
+    public static PackagedElement aggregateCheck5() throws IOException {
         XMI xmi = XMLParserUtil.parserXML();
 
 
@@ -220,12 +220,12 @@ public class AggregateValidation {
                 while (attributeIterator.hasNext()) {//遍历所有属性
                     OwnedAttribute attribute = attributeIterator.next();
                     if (!aggregateMemberSet.contains(attribute.getType())) //如果该属性引用的type不是内部的，则错误
-                        return false;
+                        return packagedElement;
                 }
             }
         }
 
-        return true;
+        return null;
 
     }
 
