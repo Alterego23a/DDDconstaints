@@ -36,11 +36,44 @@ public static PackagedElement domainEventCheck() throws IOException {
 
         while (elementIterator.hasNext())
         {
+            boolean hasFind =false;
             PackagedElement packagedElement1 = elementIterator.next();
             if(packagedElement1.getId().equals(domainEvent.getBaseClass()))
             {
                 packagedElement=packagedElement1;
                 break;                        //找到这个domainEvent所属的packagedElement
+            }
+            if(packagedElement1.getPackagedElements()!=null)//如果有下一级的PackagedElements，也就是说是BoundedContext或者Aggregate
+            {
+                Iterator<PackagedElement> elementIterator1 = packagedElement1.getPackagedElements().listIterator();//聚合内部的成员
+                while(elementIterator1.hasNext())
+                {
+                    PackagedElement packagedElementTemp = elementIterator1.next();
+                    if(packagedElementTemp.getId().equals(domainEvent.getBaseClass()))
+                    {
+                        packagedElement=packagedElementTemp;//找到这个entity所属的packagedElement
+                        hasFind=true;
+                        break;
+                    }
+                    if(packagedElementTemp.getPackagedElements()!=null)//如果内部有其他聚合，继续搜索聚合内部
+                    {
+                        Iterator<PackagedElement> elementIterator2 = packagedElementTemp.getPackagedElements().listIterator();//这里主要是遍历BoudedContext里的聚合，也就是2层的包结构
+                        while(elementIterator2.hasNext())
+                        {
+                            PackagedElement packagedElementTemp2 = elementIterator2.next();
+                            if(packagedElementTemp2.getId().equals(domainEvent.getBaseClass()))
+                            {
+                                packagedElement=packagedElementTemp2;//找到这个entity所属的packagedElement
+                                hasFind=true;
+                                break;
+                            }
+                        }
+                    }
+                    if(hasFind) break;
+                }
+
+
+                // if(hasFind) break;
             }
         }
         if (domainEvent.getIdentifier()==null)
@@ -92,10 +125,43 @@ public static PackagedElement domainEventCheck() throws IOException {
             PackagedElement packagedElement = new PackagedElement();
 
             while (elementIterator.hasNext()) {
+                boolean hasFind=false;
                 PackagedElement packagedElement1 = elementIterator.next();
                 if (packagedElement1.getId().equals(domainEvent.getBaseClass())) {
                     packagedElement = packagedElement1;
                     break;
+                }
+                if(packagedElement1.getPackagedElements()!=null)//如果有下一级的PackagedElements，也就是说是BoudedContext或者Aggregate
+                {
+                    Iterator<PackagedElement> elementIterator1 = packagedElement1.getPackagedElements().listIterator();//聚合内部的成员
+                    while(elementIterator1.hasNext())
+                    {
+                        PackagedElement packagedElementTemp = elementIterator1.next();
+                        if(packagedElementTemp.getId().equals(domainEvent.getBaseClass()))
+                        {
+                            packagedElement=packagedElementTemp;//找到这个entity所属的packagedElement
+                            hasFind=true;
+                            break;
+                        }
+                        if(packagedElementTemp.getPackagedElements()!=null)//如果内部有其他聚合，继续搜索聚合内部
+                        {
+                            Iterator<PackagedElement> elementIterator2 = packagedElementTemp.getPackagedElements().listIterator();//这里主要是遍历BoudedContext里的聚合，也就是2层的包结构
+                            while(elementIterator2.hasNext())
+                            {
+                                PackagedElement packagedElementTemp2 = elementIterator2.next();
+                                if(packagedElementTemp2.getId().equals(domainEvent.getBaseClass()))
+                                {
+                                    packagedElement=packagedElementTemp2;//找到这个entity所属的packagedElement
+                                    hasFind=true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(hasFind) break;
+                    }
+
+
+                    // if(hasFind) break;
                 }
             }
 
@@ -165,11 +231,45 @@ public static PackagedElement domainEventCheck() throws IOException {
             PackagedElement packagedElement = new PackagedElement();
 
             while (elementIterator.hasNext()) {
+                boolean hasFind =false;
                 PackagedElement packagedElement1 = elementIterator.next();
                 if (packagedElement1.getId().equals(domainEvent.getBaseClass())) {
                     packagedElement = packagedElement1;
                     break;
                 }
+                if(packagedElement1.getPackagedElements()!=null)//如果有下一级的PackagedElements，也就是说是BoudedContext或者Aggregate
+                {
+                    Iterator<PackagedElement> elementIterator1 = packagedElement1.getPackagedElements().listIterator();//聚合内部的成员
+                    while(elementIterator1.hasNext())
+                    {
+                        PackagedElement packagedElementTemp = elementIterator1.next();
+                        if(packagedElementTemp.getId().equals(domainEvent.getBaseClass()))
+                        {
+                            packagedElement=packagedElementTemp;//找到这个entity所属的packagedElement
+                            hasFind=true;
+                            break;
+                        }
+                        if(packagedElementTemp.getPackagedElements()!=null)//如果内部有其他聚合，继续搜索聚合内部
+                        {
+                            Iterator<PackagedElement> elementIterator2 = packagedElementTemp.getPackagedElements().listIterator();//这里主要是遍历BoudedContext里的聚合，也就是2层的包结构
+                            while(elementIterator2.hasNext())
+                            {
+                                PackagedElement packagedElementTemp2 = elementIterator2.next();
+                                if(packagedElementTemp2.getId().equals(domainEvent.getBaseClass()))
+                                {
+                                    packagedElement=packagedElementTemp2;//找到这个entity所属的packagedElement
+                                    hasFind=true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(hasFind) break;
+                    }
+
+
+                    // if(hasFind) break;
+                }
+
             }
 
             if (domainEvent.getTimesStamp() == null) {
@@ -192,10 +292,44 @@ public static PackagedElement domainEventCheck() throws IOException {
             PackagedElement packagedElement = new PackagedElement();
 
             while (elementIterator.hasNext()) {
+                boolean hasFind=false;
                 PackagedElement packagedElement1 = elementIterator.next();
                 if (packagedElement1.getId().equals(domainEvent.getBaseClass())) {
                     packagedElement = packagedElement1;
                     break;
+                }
+                if(packagedElement1.getPackagedElements()!=null)//如果有下一级的PackagedElements，也就是说是BoudedContext或者Aggregate
+                {
+                    Iterator<PackagedElement> elementIterator1 = packagedElement1.getPackagedElements().listIterator();//聚合内部的成员
+                    while(elementIterator1.hasNext())
+                    {
+                        PackagedElement packagedElementTemp = elementIterator1.next();
+                        if(packagedElementTemp.getId().equals(domainEvent.getBaseClass()))
+                        {
+                            packagedElement=packagedElementTemp;//找到这个entity所属的packagedElement
+                            hasFind=true;
+                            break;
+                        }
+                        if(packagedElementTemp.getPackagedElements()!=null)//如果内部有其他聚合，继续搜索聚合内部          //
+                                                                                                                    //  其实这里是多余的 ，因为聚合内部只会有root和Part 不会有其他的构造型。
+                        {
+                            Iterator<PackagedElement> elementIterator2 = packagedElementTemp.getPackagedElements().listIterator();//这里主要是遍历BoudedContext里的聚合，也就是2层的包结构
+                            while(elementIterator2.hasNext())
+                            {
+                                PackagedElement packagedElementTemp2 = elementIterator2.next();
+                                if(packagedElementTemp2.getId().equals(domainEvent.getBaseClass()))
+                                {
+                                    packagedElement=packagedElementTemp2;//找到这个entity所属的packagedElement
+                                    hasFind=true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(hasFind) break;
+                    }
+
+
+                    // if(hasFind) break;
                 }
             }
 

@@ -24,6 +24,7 @@ public class DomainServiceValidation {
             while (elementIterator.hasNext())
             {
 
+                boolean hasFind=false;
                 PackagedElement packagedElement1 = elementIterator.next();
                 if(packagedElement1.getId().equals(domainService.getBaseClass()))//该element是domainservice
                 {
@@ -31,6 +32,38 @@ public class DomainServiceValidation {
                     packagedElement=packagedElement1;
                     break;
 
+                }
+                if(packagedElement1.getPackagedElements()!=null)//如果有下一级的PackagedElements，也就是说是BoudedContext或者Aggregate
+                {
+                    Iterator<PackagedElement> elementIterator1 = packagedElement1.getPackagedElements().listIterator();//聚合内部的成员
+                    while(elementIterator1.hasNext())
+                    {
+                        PackagedElement packagedElementTemp = elementIterator1.next();
+                        if(packagedElementTemp.getId().equals(domainService.getBaseClass()))
+                        {
+                            packagedElement=packagedElementTemp;//找到这个entity所属的packagedElement
+                            hasFind=true;
+                            break;
+                        }
+                        if(packagedElementTemp.getPackagedElements()!=null)//如果内部有其他聚合，继续搜索聚合内部
+                        {
+                            Iterator<PackagedElement> elementIterator2 = packagedElementTemp.getPackagedElements().listIterator();//这里主要是遍历BoudedContext里的聚合，也就是2层的包结构
+                            while(elementIterator2.hasNext())
+                            {
+                                PackagedElement packagedElementTemp2 = elementIterator2.next();
+                                if(packagedElementTemp2.getId().equals(domainService.getBaseClass()))
+                                {
+                                    packagedElement=packagedElementTemp2;//找到这个entity所属的packagedElement
+                                    hasFind=true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(hasFind) break;
+                    }
+
+
+                    // if(hasFind) break;
                 }
             }
             //  PackagedElement packagedElement=elementIterator.next();
@@ -54,6 +87,19 @@ public class DomainServiceValidation {
             {
                 if(Support.isAggregateRoot(packagedElement,xmi)||Support.isDomainEvent(packagedElement,xmi)||Support.isFactory(packagedElement,xmi)||Support.isAggregatePart(packagedElement,xmi)||Support.isEntity(packagedElement,xmi)||Support.isValueObject(packagedElement,xmi)||Support.isRepository(packagedElement,xmi))
                     return packagedElement;//如果同时是其他构造型 则报错
+            }
+            if(Support.isBoundedContest(packagedElement,xmi))
+            {
+                Iterator<PackagedElement> elementIteratorInBoundedContest = packagedElement.getPackagedElements().listIterator();
+                while(elementIteratorInBoundedContest.hasNext())
+                {
+                    PackagedElement  packagedElementInBoundedContest =elementIteratorInBoundedContest.next();
+                    if(Support.isDomainService(packagedElement,xmi)) //如果是DomainService
+                    {
+                        if(Support.isAggregateRoot(packagedElement,xmi)||Support.isDomainEvent(packagedElement,xmi)||Support.isFactory(packagedElement,xmi)||Support.isAggregatePart(packagedElement,xmi)||Support.isEntity(packagedElement,xmi)||Support.isValueObject(packagedElement,xmi)||Support.isRepository(packagedElement,xmi))
+                            return packagedElement;//如果同时是其他构造型 则报错
+                    }
+                }
             }
         }
 

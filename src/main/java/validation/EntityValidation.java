@@ -35,13 +35,52 @@ public class    EntityValidation {
 
             while (elementIterator.hasNext())
             {
+                boolean hasFind =false; //控制找到后跳出循环
                 PackagedElement packagedElement1 = elementIterator.next();
                 if(packagedElement1.getId().equals(e.getBaseClass()))
                 {
                     packagedElement=packagedElement1;
                     break;                        //找到这个entity所属的packagedElement
                 }
+
+                if(packagedElement1.getPackagedElements()!=null)//如果有下一级的PackagedElements，也就是说是BoudedContext或者Aggregate
+                {
+                    Iterator<PackagedElement> elementIterator1 = packagedElement1.getPackagedElements().listIterator();//聚合内部的成员
+                    while(elementIterator1.hasNext())
+                    {
+                        PackagedElement packagedElementTemp = elementIterator1.next();
+                        if(packagedElementTemp.getId().equals(e.getBaseClass()))
+                        {
+                            packagedElement=packagedElementTemp;//找到这个entity所属的packagedElement
+                            hasFind=true;
+                            break;
+                        }
+                        if(packagedElementTemp.getPackagedElements()!=null)//如果内部有其他聚合，继续搜索聚合内部
+                        {
+                            Iterator<PackagedElement> elementIterator2 = packagedElementTemp.getPackagedElements().listIterator();//这里主要是遍历BoudedContext里的聚合，也就是2层的包结构
+                            while(elementIterator2.hasNext())
+                            {
+                                PackagedElement packagedElementTemp2 = elementIterator2.next();
+                                if(packagedElementTemp2.getId().equals(e.getBaseClass()))
+                                {
+                                    packagedElement=packagedElementTemp2;//找到这个entity所属的packagedElement
+                                    hasFind=true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(hasFind) break;
+                    }
+
+
+                    // if(hasFind) break;
+                }
             }
+          /*  if(packagedElement==null)//如果没有
+            {
+
+
+            }*/
 
             if (e.getIdentifier()==null)
             {
@@ -89,13 +128,48 @@ public class    EntityValidation {
             Entity e = it.next();
             Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
 
-            PackagedElement packagedElement = new PackagedElement();
+            PackagedElement packagedElement = new PackagedElement();//packagedElement 用来保存element
 
             while (elementIterator.hasNext()) {
+                boolean hasFind=false;//控制找到后跳出循环
                 PackagedElement packagedElement1 = elementIterator.next();
                 if (packagedElement1.getId().equals(e.getBaseClass())) {
-                    packagedElement = packagedElement1;
+                    packagedElement = packagedElement1;//packagedElement1为当前访问的element
                     break;
+                }
+
+
+                if(packagedElement1.getPackagedElements()!=null)//如果有下一级的PackagedElements，也就是说是BoudedContext或者Aggregate
+                {
+                    Iterator<PackagedElement> elementIterator1 = packagedElement1.getPackagedElements().listIterator();//聚合内部的成员
+                    while(elementIterator1.hasNext())
+                    {
+                        PackagedElement packagedElementTemp = elementIterator1.next();
+                        if(packagedElementTemp.getId().equals(e.getBaseClass()))
+                        {
+                            packagedElement=packagedElementTemp;//找到这个entity所属的packagedElement
+                           hasFind=true;
+                           break;
+                        }
+                        if(packagedElementTemp.getPackagedElements()!=null)//如果内部有其他聚合，继续搜索聚合内部
+                        {
+                            Iterator<PackagedElement> elementIterator2 = packagedElementTemp.getPackagedElements().listIterator();//这里主要是遍历BoudedContext里的聚合，也就是2层的包结构
+                            while(elementIterator2.hasNext())
+                            {
+                                PackagedElement packagedElementTemp2 = elementIterator2.next();
+                                if(packagedElementTemp2.getId().equals(e.getBaseClass()))
+                                {
+                                    packagedElement=packagedElementTemp2;//找到这个entity所属的packagedElement
+                                    hasFind=true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(hasFind) break;
+                    }
+
+
+               // if(hasFind) break;
                 }
             }
 
@@ -110,7 +184,7 @@ public class    EntityValidation {
                     Iterator<OwnedAttribute> attributeIterator =packagedElement.getOwnedAttributes().listIterator();//C1. An entity has and only has one identity.
                     while (attributeIterator.hasNext()) {
                         OwnedAttribute attribute = attributeIterator.next();
-
+                        //System.out.println("dwdw"+""+attribute);
                         if (identifier.equals(attribute.getName()))   // /the identity of an entity should be one of the attributes of the entity itself
                             flag = true;
 
@@ -120,6 +194,7 @@ public class    EntityValidation {
                 }
             }
             else{
+
                 while(finish) {
                     String temp = new String();
                     if(identifier.indexOf(' ',begin)!=-1)
@@ -138,7 +213,7 @@ public class    EntityValidation {
                     boolean flag=false;  //遍历属性的名字，含有temp则flag为true
                     while(attributeIterator.hasNext()) {
                         OwnedAttribute attribute = attributeIterator.next();
-
+                      //  System.out.println("dwdw"+""+attribute);
                         if (temp.equals(attribute.getName()))   // /the identity of an entity should be one of the attributes of the entity itself
                             flag=true;
                     }
@@ -172,11 +247,49 @@ public class    EntityValidation {
 
             while (elementIterator.hasNext())
             {
+
+                boolean hasFind=false;
                 PackagedElement packagedElement1 = elementIterator.next();
                 if(packagedElement1.getId().equals(e.getBaseClass()))
                 {
                     packagedElement=packagedElement1;         //找到是entity的packagedElement
                     break;
+                }
+
+
+
+
+               if(packagedElement1.getPackagedElements()!=null)//如果有下一级的PackagedElements，也就是说是BoudedContext或者Aggregate
+                {
+                    Iterator<PackagedElement> elementIterator1 = packagedElement1.getPackagedElements().listIterator();//聚合内部的成员
+                    while(elementIterator1.hasNext())
+                    {
+                        PackagedElement packagedElementTemp = elementIterator1.next();
+                        if(packagedElementTemp.getId().equals(e.getBaseClass()))
+                        {
+                            packagedElement=packagedElementTemp;//找到这个entity所属的packagedElement
+                            hasFind=true;
+                            break;
+                        }
+                        if(packagedElementTemp.getPackagedElements()!=null)//如果内部有其他聚合，继续搜索聚合内部
+                        {
+                            Iterator<PackagedElement> elementIterator2 = packagedElementTemp.getPackagedElements().listIterator();//这里主要是遍历BoudedContext里的聚合，也就是2层的包结构
+                            while(elementIterator2.hasNext())
+                            {
+                                PackagedElement packagedElementTemp2 = elementIterator2.next();
+                                if(packagedElementTemp2.getId().equals(e.getBaseClass()))
+                                {
+                                    packagedElement=packagedElementTemp2;//找到这个entity所属的packagedElement
+                                    hasFind=true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(hasFind) break;
+                    }
+
+
+                    // if(hasFind) break;
                 }
             }
 

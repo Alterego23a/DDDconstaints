@@ -23,8 +23,6 @@ public class Validation {
       packagedElement=EntityValidation.entityCheck();
         if(packagedElement!=null)
             System.out.printf("%s   :error:An entity has and only has one identity.\n",packagedElement.getName());
-       /* if(EntityValidation.entityCheck2()==false)
-            System.out.println("error:An entity should has at least one domain behaviour.");*/
         packagedElement=EntityValidation.entityCheck2();
         if(packagedElement!=null)
            System.out.printf("%s   :error:The identity of an entity should be designed as the composition of one or several it attributes.\n",packagedElement.getName());
@@ -44,14 +42,14 @@ public class Validation {
             System.out.printf("%s   :error:A domain event has and only has one identity.\n",packagedElement.getName());
         packagedElement=DomainEventValidation.domainEventCheck2();
         if(packagedElement!=null)
-            System.out.printf("%s   :error:The identity of an entity should be designed as the composition of one or several it attributes.\n",packagedElement.getName());
+            System.out.printf("%s   :error:The identity of a domainevent should be designed as the composition of one or several it attributes.\n",packagedElement.getName());
         packagedElement=DomainEventValidation.domainEventCheck3();
         if(packagedElement!=null)
             System.out.printf("%s   :error:A domain event needs a timestamp that records the time when the event happens.\n",packagedElement.getName());
         packagedElement=DomainEventValidation.domainEventCheck4();
         if(packagedElement!=null)
             System.out.printf("%s   :error:A domain event needs to specify the publisher and subscriber of the event.\n",packagedElement.getName());
-
+      //  System.out.println("ok2");
 
 
 
@@ -63,7 +61,7 @@ public class Validation {
         packagedElement=DomainServiceValidation.domainServiceCheck2();
         if(packagedElement!=null)
             System.out.printf("%s   :error:A domain service should not be designed as other patterns at the same time.\n",packagedElement.getName());
-
+    //    System.out.println("ok3");
 
 //---------------------------------Repository------------------------------------------------
         packagedElement=RepositoryValidation.repositoryCheck();
@@ -75,7 +73,7 @@ public class Validation {
         packagedElement=RepositoryValidation.repositoryCheck3();
         if(packagedElement!=null)
             System.out.printf("%s   :error:A factory should not be designed as other patterns at the same time.\n",packagedElement.getName());
-
+    //    System.out.println("ok4");
 
 
 //---------------------------------Factory------------------------------------------------
@@ -87,7 +85,7 @@ public class Validation {
         if(packagedElement!=null)
             System.out.printf("%s   :error:A factory should not be designed as other patterns at the same time.\n",packagedElement.getName());
 
-
+     //   System.out.println("ok5");
 
 
 
@@ -97,15 +95,16 @@ public class Validation {
             System.out.printf("%s   :error:The root of an aggregate can only be designed as an entity.\n",packagedElement.getName());
 
 
-
+    //    System.out.println("ok6");
 
 //---------------------------------AggregatePart------------------------------------------------
-        packagedElement=AggregatePartValidation.aggregatePartCheck();
+       packagedElement=AggregatePartValidation.aggregatePartCheck();
         if(packagedElement!=null)
             System.out.printf("%s   :error:The aggregate part can only be designed as an entity or a value object.\n",packagedElement.getName());
         packagedElement=AggregatePartValidation.aggregatePartCheck2();
         if(packagedElement!=null)
             System.out.printf("%s   :error:The reference of an aggregate part cannot be held by the outside objects.\n",packagedElement.getName());
+   //     System.out.println("ok7");
 //---------------------------------Aggregate------------------------------------------------
         packagedElement=AggregateValidation.aggregateCheck();
         if(packagedElement !=null)
@@ -126,6 +125,6 @@ public class Validation {
 
 
 
-     //   System.out.println("ok");
+       System.out.println("ok8");
     }
 }

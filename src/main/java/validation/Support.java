@@ -134,6 +134,18 @@ public class Support {
 
         return false;
     }
+    public static boolean isBoundedContest(PackagedElement packagedElement, XMI xmi)
+    {
+        Iterator<BoundedContext> it=xmi.getBoundedContexts().listIterator();
 
+        while (it.hasNext())
+        {
+            BoundedContext boundedContext = it.next();
+            if(boundedContext.getBasePackage().equals(packagedElement.getId()))
+                return true;
+        }
+
+        return false;
+    }
 
 }

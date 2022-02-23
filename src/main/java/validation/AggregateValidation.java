@@ -29,11 +29,29 @@ public class AggregateValidation {
             PackagedElement packagedElement = new PackagedElement();
             while (elementIterator.hasNext()) {
                 PackagedElement packagedElement1 = elementIterator.next();
-                if (packagedElement1.getId().equals( aggregate.getBasePackage()))//该element是aggregate
+                if (packagedElement1.getId().equals( aggregate.getBasePackage()))//该element是当前访问的aggregate
                 {
                     packagedElement = packagedElement1;
                     break;
                 }
+                if(Support.isBoundedContest(packagedElement1,xmi))
+                {
+                    Iterator<PackagedElement> elementIteratorInBoundedContest = packagedElement1.getPackagedElements().listIterator();
+                    while(elementIteratorInBoundedContest.hasNext()){
+                        PackagedElement packagedElementInBoundedContest =elementIteratorInBoundedContest.next();
+                        if(packagedElementInBoundedContest.getId().equals(aggregate.getBasePackage()))
+                        {
+                            packagedElement = packagedElementInBoundedContest;
+                            break;
+                        }
+                    }
+
+
+                }
+
+
+
+
             }
             Iterator<PackagedElement> elementIterator1 = packagedElement.getPackagedElements().listIterator();//聚合内部的成员
 
@@ -67,6 +85,22 @@ public class AggregateValidation {
                     packagedElement = packagedElement1;
                     break;
                 }
+
+                if(Support.isBoundedContest(packagedElement1,xmi))
+                {
+                    Iterator<PackagedElement> elementIteratorInBoundedContest = packagedElement1.getPackagedElements().listIterator();
+                    while(elementIteratorInBoundedContest.hasNext()){
+                        PackagedElement packagedElementInBoundedContest =elementIteratorInBoundedContest.next();
+                        if(packagedElementInBoundedContest.getId().equals(aggregate.getBasePackage()))
+                        {
+                            packagedElement = packagedElementInBoundedContest;
+                            break;
+                        }
+                    }
+
+
+                }
+
             }
 
 
@@ -92,17 +126,75 @@ public class AggregateValidation {
         while (it.hasNext()) {//遍历所有元素
             PackagedElement packagedElement = it.next();
             if (Support.isAggregate(packagedElement, xmi)) {//如果是聚合
+                Iterator<PackagedElement> isAggregateRootIterator =xmi.getUmlModel().getPackagedElement().listIterator();
                 Iterator<Factory> factoryIterator = xmi.getFactories().listIterator();
+                PackagedElement aggregateRoot =new PackagedElement();
+                while(isAggregateRootIterator.hasNext())
+                {
+                    PackagedElement aggregateRoot1 = isAggregateRootIterator.next();
+                    if(Support.isAggregateRoot(aggregateRoot1,xmi))
+                    {
+                        aggregateRoot=aggregateRoot1;
+                        break;
+                    }
+                }
                 boolean temp =false;
                 while(factoryIterator.hasNext())
                 {
                     Factory factory =factoryIterator.next();
                     if(factory.getCreatingDomainObject()==null)
-                        return packagedElement;//getAccessingDomainObject不能为空
-                    if(factory.getCreatingDomainObject().equals(packagedElement.getId()))//必须有一个factory负责该聚合的创建
+                        return null;//getAccessingDomainObject不能为空，但暂时先不报错-------------------------------------------------------------
+                    if(factory.getCreatingDomainObject().equals(aggregateRoot.getId()))//必须有一个factory负责该聚合的创建
                         temp=true;
                 }
                 if(!temp) return  packagedElement;
+
+
+            }
+
+            if(Support.isBoundedContest(packagedElement,xmi))
+            {
+               /* Iterator<PackagedElement> isAggregateRootIterator =xmi.getUmlModel().getPackagedElement().listIterator();
+                PackagedElement aggregateRoot =new PackagedElement();
+                while(isAggregateRootIterator.hasNext())
+                {
+                    PackagedElement aggregateRoot1 = isAggregateRootIterator.next();
+                    if(Support.isAggregateRoot(aggregateRoot1,xmi))
+                    {
+                        aggregateRoot=aggregateRoot1;
+                        break;
+                    }
+                }*/
+                Iterator<PackagedElement> elementIteratorInBoundedContest = packagedElement.getPackagedElements().listIterator();
+                while(elementIteratorInBoundedContest.hasNext()){
+                    PackagedElement packagedElementInBoundedContest =elementIteratorInBoundedContest.next();
+                    if (Support.isAggregate(packagedElementInBoundedContest, xmi)) {//如果是聚合
+                        Iterator<PackagedElement> isAggregateRootIterator =packagedElementInBoundedContest.getPackagedElements().listIterator();//访问该限界上下文的该聚合的内部，找到其聚合根。
+                        Iterator<Factory> factoryIterator = xmi.getFactories().listIterator();
+                        PackagedElement aggregateRoot =new PackagedElement();
+                        while(isAggregateRootIterator.hasNext())
+                        {
+                            PackagedElement aggregateRoot1 = isAggregateRootIterator.next();
+                            if(Support.isAggregateRoot(aggregateRoot1,xmi))
+                            {
+                                aggregateRoot=aggregateRoot1;
+                                break;
+                            }
+                        }
+                        boolean temp =false;
+                        while(factoryIterator.hasNext())
+                        {
+                            Factory factory =factoryIterator.next();
+                            if(factory.getCreatingDomainObject()==null)
+                                return null;//getAccessingDomainObject不能为空，但暂时先不报错-------------------------------------------------------------
+                            if(factory.getCreatingDomainObject().equals(aggregateRoot.getId()))//必须有一个factory负责该聚合的创建
+                                temp=true;
+                        }
+                        if(!temp) return  packagedElementInBoundedContest;
+
+
+                    }
+                }
 
 
             }
@@ -132,6 +224,53 @@ public class AggregateValidation {
 
                 }
                 if(!temp) return  packagedElement;
+
+
+            }
+
+            if(Support.isBoundedContest(packagedElement,xmi))
+            {
+               /* Iterator<PackagedElement> isAggregateRootIterator =xmi.getUmlModel().getPackagedElement().listIterator();
+                PackagedElement aggregateRoot =new PackagedElement();
+                while(isAggregateRootIterator.hasNext())
+                {
+                    PackagedElement aggregateRoot1 = isAggregateRootIterator.next();
+                    if(Support.isAggregateRoot(aggregateRoot1,xmi))
+                    {
+                        aggregateRoot=aggregateRoot1;
+                        break;
+                    }
+                }*/
+                Iterator<PackagedElement> elementIteratorInBoundedContest = packagedElement.getPackagedElements().listIterator();
+                while(elementIteratorInBoundedContest.hasNext()){
+                    PackagedElement packagedElementInBoundedContest =elementIteratorInBoundedContest.next();
+                    if (Support.isAggregate(packagedElementInBoundedContest, xmi)) {//如果是聚合
+                        Iterator<PackagedElement> isAggregateRootIterator =packagedElementInBoundedContest.getPackagedElements().listIterator();//访问该限界上下文的该聚合的内部，找到其聚合根。
+                        Iterator<Repository> repositoryIterator = xmi.getRepositories().listIterator();
+                        PackagedElement aggregateRoot =new PackagedElement();
+                        while(isAggregateRootIterator.hasNext())
+                        {
+                            PackagedElement aggregateRoot1 = isAggregateRootIterator.next();
+                            if(Support.isAggregateRoot(aggregateRoot1,xmi))
+                            {
+                                aggregateRoot=aggregateRoot1;
+                                break;
+                            }
+                        }
+                        boolean temp =false;
+                        while(repositoryIterator.hasNext())
+                        {
+                            Repository repository =repositoryIterator.next();
+                            if(repository.getAccessingDomainObject()==null)
+                                return null;//getAccessingDomainObject不能为空，但暂时先不报错-------------------------------------------------------------
+                            if(repository.getAccessingDomainObject().equals(aggregateRoot.getId()))//必须有一个factory负责该聚合的创建
+                                temp=true;
+                        }
+                        if(!temp) return  packagedElementInBoundedContest;
+
+
+                    }
+                }
 
 
             }
@@ -190,7 +329,7 @@ public class AggregateValidation {
         Iterator<Aggregate> it = xmi.getAggregates().listIterator();
         //  C17. Except the aggregate root, an aggregate can only contain aggregate parts
         HashSet<String> aggregateMemberSet = new HashSet<String>();
-        aggregateMemberSet.add("uml:Property");//把基本数据类型加进去。
+        aggregateMemberSet.add("");//把基本数据类型加进去。
         while (it.hasNext()) {
             Aggregate aggregate = it.next();
             Iterator<PackagedElement> elementIterator = xmi.getUmlModel().getPackagedElement().listIterator();
@@ -202,6 +341,21 @@ public class AggregateValidation {
                 {
                     packagedElement = packagedElement1;
                     break;
+                }
+
+                if(Support.isBoundedContest(packagedElement1,xmi))
+                {
+                    Iterator<PackagedElement> elementIteratorInBoundedContest = packagedElement1.getPackagedElements().listIterator();
+                    while(elementIteratorInBoundedContest.hasNext()){
+                        PackagedElement packagedElementInBoundedContest =elementIteratorInBoundedContest.next();
+                        if(packagedElementInBoundedContest.getId().equals(aggregate.getBasePackage()))
+                        {
+                            packagedElement = packagedElementInBoundedContest;
+                            break;
+                        }
+                    }
+
+
                 }
             }
 
