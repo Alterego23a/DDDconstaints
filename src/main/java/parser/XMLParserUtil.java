@@ -12,7 +12,7 @@ public class XMLParserUtil {
 
 
     public static XMI parserXML() throws IOException {
-        String filePath = "src/main/resources/model_test.xml";
+        String filePath = "src/main/resources/SeafoodTracingAndHandling.xml";
         FileInputStream fileInputStream = new FileInputStream(filePath);
         JacksonXmlModule jacksonXmlModule = new JacksonXmlModule();
         XmlMapper xmlMapper = new XmlMapper(jacksonXmlModule);

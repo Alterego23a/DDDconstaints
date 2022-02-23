@@ -27,10 +27,14 @@ public class OwnedAttribute implements Serializable {
     @JacksonXmlProperty(isAttribute = true)
     private String name;
 
-    public OwnedAttribute(String type, String id, String name) {
+    @JacksonXmlProperty(isAttribute = true)
+    private String association;
+
+    public OwnedAttribute(String type, String id, String name,String association) {
         this.type = type;
         this.id = id;
         this.name = name;
+        this.name=association;
     }
 
     public OwnedAttribute() {
@@ -58,6 +62,14 @@ public class OwnedAttribute implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setAssociation(String association) {
+        this.association = association;
+    }
+
+    public String getAssociation() {
+        return association;
     }
 
     @Override

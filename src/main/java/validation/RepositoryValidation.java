@@ -156,7 +156,19 @@ public class RepositoryValidation {
             //  PackagedElement packagedElement=elementIterator.next();
             //assert packagedElement!=null;
             if(!packagedElement.getOwnedAttributes().isEmpty())
-                return packagedElement;
+            {
+
+               Iterator<OwnedAttribute> attributeIterator= packagedElement.getOwnedAttributes().listIterator();
+
+               while(attributeIterator.hasNext())
+               {
+                   OwnedAttribute attribute =attributeIterator.next();
+                   if(attribute.getAssociation()==null)
+                       return packagedElement;
+               }
+
+            }
+
         }
         return null;
     }
